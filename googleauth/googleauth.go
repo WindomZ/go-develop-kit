@@ -1,6 +1,5 @@
 /*
-Package dgoogauth implements the one-time password algorithms supported by Google Authenticator
-
+The one-time password algorithms supported by Google Authenticator
 This package supports the HMAC-Based One-time Password (HOTP) algorithm
 specified in RFC 4226 and the Time-based One-time Password (TOTP) algorithm
 specified in RFC 6238.
@@ -29,21 +28,16 @@ func ComputeCode(secret string, value int64) int {
 	if err != nil {
 		return -1
 	}
-
 	hash := hmac.New(sha1.New, key)
 	err = binary.Write(hash, binary.BigEndian, value)
 	if err != nil {
 		return -1
 	}
 	h := hash.Sum(nil)
-
 	offset := h[19] & 0x0f
-
 	truncated := binary.BigEndian.Uint32(h[offset : offset+4])
-
 	truncated &= 0x7fffffff
 	code := truncated % 1000000
-
 	return int(code)
 }
 
@@ -95,17 +89,14 @@ func (c *OTPConfig) checkTotpCode(t0, code int) bool {
 	maxT := t0 + (c.WindowSize / 2)
 	for t := minT; t <= maxT; t++ {
 		if ComputeCode(c.Secret, int64(t)) == code {
-
 			if c.DisallowReuse != nil {
 				for _, timeCode := range c.DisallowReuse {
 					if timeCode == t {
 						return false
 					}
 				}
-
 				// code hasn't been used before
 				c.DisallowReuse = append(c.DisallowReuse, t)
-
 				// remove all time codes outside of the valid window
 				sort.Ints(c.DisallowReuse)
 				min := 0
@@ -115,7 +106,6 @@ func (c *OTPConfig) checkTotpCode(t0, code int) bool {
 				// FIXME: check we don't have an off-by-one error here
 				c.DisallowReuse = c.DisallowReuse[min:]
 			}
-
 			return true
 		}
 	}
@@ -136,24 +126,15 @@ func (c *OTPConfig) Authenticate(password string) (bool, error) {
 	default:
 		return false, ErrInvalidCode
 	}
-
 	code, err := strconv.Atoi(password)
-
 	if err != nil {
 		return false, ErrInvalidCode
-	}
-
-	if scratch {
+	} else if scratch {
 		return c.checkScratchCodes(code), nil
-	}
-
-	// we have a counter value we can use
-	if c.HotpCounter > 0 {
+	} else if c.HotpCounter > 0 {
 		return c.checkHotpCode(code), nil
 	}
-
 	var t0 int
-	// assume we're on Time-based OTP
 	if c.UTC {
 		t0 = int(time.Now().UTC().Unix() / 30)
 	} else {
@@ -173,7 +154,7 @@ func (c *OTPConfig) ProvisionURI(user string) string {
 // on how to avoid conflicting accounts.
 //
 // See https://code.google.com/p/google-authenticator/wiki/ConflictingAccounts
-func (c *OTPConfig) ProvisionURIWithIssuer(user string, issuer string) string {
+func (c *OTPConfig) ProvisionURIWithIssuer(user, issuer string) string {
 	auth := "totp/"
 	q := make(url.Values)
 	if c.HotpCounter > 0 {

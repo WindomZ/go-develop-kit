@@ -5,8 +5,9 @@ import (
 	"encoding/base32"
 )
 
-func generateRandomSecret(size int, encodeToBase32 bool) string {
-	alphanum := "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+const alphanum string = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+func GenerateRandomSecret(size int, encodeToBase32 bool) string {
 	var bytes = make([]byte, size)
 	rand.Read(bytes)
 	for i, b := range bytes {
