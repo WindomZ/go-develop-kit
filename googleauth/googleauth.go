@@ -25,7 +25,6 @@ import (
 // To avoid breaking compatibility with the previous API, it returns an invalid code (-1) when an error occurs,
 // but does not silently ignore them (it forces a mismatch so the code will be rejected).
 func ComputeCode(secret string, value int64) int {
-
 	key, err := base32.StdEncoding.DecodeString(secret)
 	if err != nil {
 		return -1
@@ -64,7 +63,6 @@ type OTPConfig struct {
 }
 
 func (c *OTPConfig) checkScratchCodes(code int) bool {
-
 	for i, v := range c.ScratchCodes {
 		if code == v {
 			// remove this code from the list of valid ones
@@ -74,12 +72,10 @@ func (c *OTPConfig) checkScratchCodes(code int) bool {
 			return true
 		}
 	}
-
 	return false
 }
 
 func (c *OTPConfig) checkHotpCode(code int) bool {
-
 	for i := 0; i < c.WindowSize; i++ {
 		if ComputeCode(c.Secret, int64(c.HotpCounter+i)) == code {
 			c.HotpCounter += i + 1
@@ -89,14 +85,12 @@ func (c *OTPConfig) checkHotpCode(code int) bool {
 			return true
 		}
 	}
-
 	// we must always advance the counter if we tried to authenticate with it
 	c.HotpCounter++
 	return false
 }
 
 func (c *OTPConfig) checkTotpCode(t0, code int) bool {
-
 	minT := t0 - (c.WindowSize / 2)
 	maxT := t0 + (c.WindowSize / 2)
 	for t := minT; t <= maxT; t++ {
@@ -125,7 +119,6 @@ func (c *OTPConfig) checkTotpCode(t0, code int) bool {
 			return true
 		}
 	}
-
 	return false
 }
 
@@ -133,9 +126,7 @@ func (c *OTPConfig) checkTotpCode(t0, code int) bool {
 // Returns true/false if the authentication was successful.
 // Returns error if the password is incorrectly formatted (not a zero-padded 6 or non-zero-padded 8 digit number).
 func (c *OTPConfig) Authenticate(password string) (bool, error) {
-
 	var scratch bool
-
 	switch {
 	case len(password) == 6 && password[0] >= '0' && password[0] <= '9':
 		break
@@ -194,6 +185,5 @@ func (c *OTPConfig) ProvisionURIWithIssuer(user string, issuer string) string {
 		q.Add("issuer", issuer)
 		auth += issuer + ":"
 	}
-
 	return "otpauth://" + auth + user + "?" + q.Encode()
 }
