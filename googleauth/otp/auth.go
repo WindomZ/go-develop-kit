@@ -12,11 +12,13 @@ func ValidType(t string) bool {
 }
 
 type Authenticator struct {
-	Type     string
-	mux_auth *sync.RWMutex
-	OTPAuth  map[string]OTP
-	mux_open *sync.RWMutex
-	OTPOpen  map[string]bool
+	Type       string
+	mux_auth   *sync.RWMutex
+	OTPAuth    map[string]OTP
+	mux_open   *sync.RWMutex
+	OTPOpen    map[string]bool
+	mux_active *sync.RWMutex
+	OTPActive  map[string]bool
 }
 
 func NewAuthenticator(_type string) (*Authenticator, error) {
@@ -24,11 +26,13 @@ func NewAuthenticator(_type string) (*Authenticator, error) {
 		return nil, ErrType
 	}
 	return &Authenticator{
-		Type:     _type,
-		mux_auth: new(sync.RWMutex),
-		OTPAuth:  make(map[string]OTP),
-		mux_open: new(sync.RWMutex),
-		OTPOpen:  make(map[string]bool),
+		Type:       _type,
+		mux_auth:   new(sync.RWMutex),
+		OTPAuth:    make(map[string]OTP),
+		mux_open:   new(sync.RWMutex),
+		OTPOpen:    make(map[string]bool),
+		mux_active: new(sync.RWMutex),
+		OTPActive:  make(map[string]bool),
 	}, nil
 }
 
@@ -78,12 +82,36 @@ func (a *Authenticator) Close(id string) {
 	a.mux_open.Lock()
 	defer a.mux_open.Unlock()
 	a.OTPOpen[id] = false
+	a.Inactive(id)
 }
 
 func (a *Authenticator) IsOpen(id string) bool {
 	a.mux_open.RLock()
 	defer a.mux_open.RUnlock()
 	if v, ok := a.OTPOpen[id]; ok {
+		return v
+	}
+	return true
+}
+
+func (a *Authenticator) Active(id string) {
+	a.mux_active.Lock()
+	defer a.mux_active.Unlock()
+	if _, ok := a.OTPActive[id]; ok {
+		delete(a.OTPActive, id)
+	}
+}
+
+func (a *Authenticator) Inactive(id string) {
+	a.mux_active.Lock()
+	defer a.mux_active.Unlock()
+	a.OTPActive[id] = false
+}
+
+func (a *Authenticator) IsActive(id string) bool {
+	a.mux_active.RLock()
+	defer a.mux_active.RUnlock()
+	if v, ok := a.OTPActive[id]; ok {
 		return v
 	}
 	return true
@@ -97,7 +125,9 @@ func (a *Authenticator) URL(id, user, issuer string) string {
 }
 
 func (a *Authenticator) Verify(id, password string) (bool, error) {
-	if v, ok := a.OTPAuth[id]; ok {
+	if !a.IsOpen(id) {
+		return false, ErrNotOpen
+	} else if v, ok := a.OTPAuth[id]; ok {
 		return v.Verify(password)
 	}
 	return false, ErrNotExist
