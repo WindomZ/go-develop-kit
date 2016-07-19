@@ -1,5 +1,7 @@
 package otp
 
+import "sync"
+
 const (
 	TypeTOTP int16 = 1
 	TypeHOTP       = 2
@@ -10,6 +12,7 @@ func ValidType(t int16) bool {
 }
 
 type Authenticator struct {
+	mux     *sync.RWMutex
 	Type    int16
 	OTPAuth map[string]OTP
 }
@@ -19,6 +22,7 @@ func NewAuthenticator(_type int16) (*Authenticator, error) {
 		return nil, ErrType
 	}
 	return &Authenticator{
+		mux:     new(sync.RWMutex),
 		Type:    _type,
 		OTPAuth: make(map[string]OTP),
 	}, nil
@@ -27,7 +31,10 @@ func NewAuthenticator(_type int16) (*Authenticator, error) {
 func (a *Authenticator) AddSecret(id, secret string) (OTP, error) {
 	if len(id) == 0 {
 		return nil, ErrID
-	} else if v, ok := a.OTPAuth[id]; ok {
+	}
+	a.mux.Lock()
+	defer a.mux.Unlock()
+	if v, ok := a.OTPAuth[id]; ok {
 		return v, ErrExist
 	}
 	switch a.Type {
