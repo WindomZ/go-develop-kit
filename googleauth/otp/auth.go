@@ -3,21 +3,21 @@ package otp
 import "sync"
 
 const (
-	TypeTOTP int16 = 1
-	TypeHOTP       = 2
+	TypeTOTP string = "totp"
+	TypeHOTP        = "hotp"
 )
 
-func ValidType(t int16) bool {
+func ValidType(t string) bool {
 	return (t == TypeTOTP || t == TypeHOTP)
 }
 
 type Authenticator struct {
 	mux     *sync.RWMutex
-	Type    int16
+	Type    string
 	OTPAuth map[string]OTP
 }
 
-func NewAuthenticator(_type int16) (*Authenticator, error) {
+func NewAuthenticator(_type string) (*Authenticator, error) {
 	if !ValidType(_type) {
 		return nil, ErrType
 	}
