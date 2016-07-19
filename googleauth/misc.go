@@ -18,3 +18,14 @@ func GenerateRandomSecret(size int, encodeToBase32 bool) string {
 	}
 	return string(bytes)
 }
+
+func ValidSecret(secret string, size int, encodeToBase32 bool) bool {
+	if len(secret) != size {
+		return false
+	} else if encodeToBase32 {
+		if _, err := base32.StdEncoding.DecodeString(secret); err != nil {
+			return false
+		}
+	}
+	return true
+}
