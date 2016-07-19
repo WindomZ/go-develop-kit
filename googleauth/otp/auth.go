@@ -12,9 +12,11 @@ func ValidType(t string) bool {
 }
 
 type Authenticator struct {
-	mux     *sync.RWMutex
-	Type    string
-	OTPAuth map[string]OTP
+	Type     string
+	mux_auth *sync.RWMutex
+	OTPAuth  map[string]OTP
+	mux_open *sync.RWMutex
+	OTPOpen  map[string]bool
 }
 
 func NewAuthenticator(_type string) (*Authenticator, error) {
@@ -22,9 +24,11 @@ func NewAuthenticator(_type string) (*Authenticator, error) {
 		return nil, ErrType
 	}
 	return &Authenticator{
-		mux:     new(sync.RWMutex),
-		Type:    _type,
-		OTPAuth: make(map[string]OTP),
+		Type:     _type,
+		mux_auth: new(sync.RWMutex),
+		OTPAuth:  make(map[string]OTP),
+		mux_open: new(sync.RWMutex),
+		OTPOpen:  make(map[string]bool),
 	}, nil
 }
 
@@ -32,8 +36,8 @@ func (a *Authenticator) AddSecret(id, secret string) (OTP, error) {
 	if len(id) == 0 {
 		return nil, ErrID
 	}
-	a.mux.Lock()
-	defer a.mux.Unlock()
+	a.mux_auth.Lock()
+	defer a.mux_auth.Unlock()
 	if v, ok := a.OTPAuth[id]; ok {
 		return v, ErrExist
 	}
@@ -60,6 +64,29 @@ func (a *Authenticator) ValidSecret(id string) bool {
 		return v.ValidSecret()
 	}
 	return false
+}
+
+func (a *Authenticator) Open(id string) {
+	a.mux_open.Lock()
+	defer a.mux_open.Unlock()
+	if _, ok := a.OTPOpen[id]; ok {
+		delete(a.OTPOpen, id)
+	}
+}
+
+func (a *Authenticator) Close(id string) {
+	a.mux_open.Lock()
+	defer a.mux_open.Unlock()
+	a.OTPOpen[id] = false
+}
+
+func (a *Authenticator) IsOpen(id string) bool {
+	a.mux_open.RLock()
+	defer a.mux_open.RUnlock()
+	if v, ok := a.OTPOpen[id]; ok {
+		return v
+	}
+	return true
 }
 
 func (a *Authenticator) URL(id, user, issuer string) string {
