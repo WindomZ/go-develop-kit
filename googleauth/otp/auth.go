@@ -128,7 +128,7 @@ func (a *Authenticator) Verify(id, password string) (bool, error) {
 	if !a.IsOpen(id) {
 		return false, ErrNotOpen
 	} else if v, ok := a.OTPAuth[id]; ok {
-		if r, err := v.Verify(password); !r || err != nil {
+		if ok, err := v.Verify(password); !ok || err != nil {
 			return false, err
 		} else if !a.IsActive(id) {
 			a.Active(id)
