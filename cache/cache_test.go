@@ -1,13 +1,22 @@
-package freecache
+package cache
 
 import (
 	"testing"
 	"time"
 )
 
+var c ICache
+
+func TestNewCache(t *testing.T) {
+	c = NewCache(nil)
+	if c == nil {
+		t.Fatal("Error create")
+	}
+}
+
 func TestCache_String(t *testing.T) {
 	var key, value string = "key", "test 123 ABC 中文 !@#"
-	c := NewCache(1024)
+
 	if err := c.SetString(key, value, 1); err != nil {
 		t.Fatal(err)
 	} else if v, err := c.GetString(key); err != nil {
@@ -30,7 +39,6 @@ func TestCache_Interface(t *testing.T) {
 		String: value,
 		Time:   time.Now(),
 	}
-	c := NewCache(1024)
 	if err := c.SetInterface(key, d1, 1); err != nil {
 		t.Fatal(err)
 	}
