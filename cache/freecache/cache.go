@@ -6,14 +6,14 @@ import (
 )
 
 type Cache struct {
-	base          freecache.Cache
-	ExpireSeconds int
+	base                 freecache.Cache
+	defaultExpireSeconds int
 }
 
 func NewCache(size, expireSeconds int) *Cache {
 	return &Cache{
-		base:          *freecache.NewCache(size),
-		ExpireSeconds: expireSeconds,
+		base:                 *freecache.NewCache(size),
+		defaultExpireSeconds: expireSeconds,
 	}
 }
 
@@ -29,7 +29,7 @@ func (c *Cache) SetBytes(key string, value []byte, expireSeconds ...int) error {
 	if expireSeconds != nil && len(expireSeconds) != 0 {
 		err = c.Ex().Set([]byte(key), value, expireSeconds[0])
 	} else {
-		err = c.Ex().Set([]byte(key), value, c.ExpireSeconds)
+		err = c.Ex().Set([]byte(key), value, c.defaultExpireSeconds)
 	}
 	if err != nil {
 		return decorateError(err)

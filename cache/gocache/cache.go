@@ -7,14 +7,14 @@ import (
 )
 
 type Cache struct {
-	base          cache.Cache
-	ExpireSeconds time.Duration
+	base                 cache.Cache
+	defaultExpireSeconds time.Duration
 }
 
 func NewCache(defaultExpiration, cleanupInterval time.Duration) *Cache {
 	return &Cache{
-		base:          *cache.New(defaultExpiration, cleanupInterval),
-		ExpireSeconds: defaultExpiration,
+		base:                 *cache.New(defaultExpiration, cleanupInterval),
+		defaultExpireSeconds: defaultExpiration,
 	}
 }
 
@@ -57,7 +57,7 @@ func (c *Cache) SetInterface(key string, value interface{}, expireSeconds ...int
 	if expireSeconds != nil && len(expireSeconds) != 0 {
 		c.Ex().Set(key, value, time.Duration(expireSeconds[0])*time.Second)
 	} else {
-		c.Ex().Set(key, value, c.ExpireSeconds)
+		c.Ex().Set(key, value, c.defaultExpireSeconds)
 	}
 	return nil
 }
