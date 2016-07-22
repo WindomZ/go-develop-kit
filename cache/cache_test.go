@@ -8,7 +8,13 @@ import (
 var c ICache
 
 func TestNewCache(t *testing.T) {
-	c = NewCache(nil)
+	c = NewCache(&Config{
+		MoreString:      false,
+		MoreInterface:   true,
+		Size:            1024,
+		ExpireSeconds:   60,
+		CleanupInterval: 30,
+	})
 	if c == nil {
 		t.Fatal("Error create")
 	}
@@ -16,8 +22,7 @@ func TestNewCache(t *testing.T) {
 
 func TestCache_String(t *testing.T) {
 	var key, value string = "key", "test 123 ABC 中文 !@#"
-
-	if err := c.SetString(key, value, 1); err != nil {
+	if err := c.SetString(key, value); err != nil {
 		t.Fatal(err)
 	} else if v, err := c.GetString(key); err != nil {
 		t.Fatal(err)
@@ -39,7 +44,7 @@ func TestCache_Interface(t *testing.T) {
 		String: value,
 		Time:   time.Now(),
 	}
-	if err := c.SetInterface(key, d1, 1); err != nil {
+	if err := c.SetInterface(key, d1); err != nil {
 		t.Fatal(err)
 	}
 	var d2 TestDemo1
