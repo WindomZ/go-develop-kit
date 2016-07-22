@@ -12,6 +12,9 @@ func TestHOTP_URL(t *testing.T) {
 	o := NewHOTP(5, 16)
 	t.Logf("url: %v", o.URL("hotp", "https://github.com/WindomZ/go-develop-kit/tree/master/googleauth"))
 	t.Logf("secret: %v", o.GetSecret())
+	if !o.ValidSecret() {
+		t.Fatal("Fail to verify secret")
+	}
 }
 
 func TestHOTP_Verify(t *testing.T) {

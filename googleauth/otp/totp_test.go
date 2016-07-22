@@ -12,6 +12,9 @@ func TestTOTP_URL(t *testing.T) {
 	o := NewTOTP(3, 16)
 	t.Logf("url: %v", o.URL("totp", "https://github.com/WindomZ/go-develop-kit/tree/master/googleauth"))
 	t.Logf("secret: %v", o.GetSecret())
+	if !o.ValidSecret() {
+		t.Fatal("Fail to verify secret")
+	}
 }
 
 func TestTOTP_Verify(t *testing.T) {

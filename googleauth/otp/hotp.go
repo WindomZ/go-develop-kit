@@ -31,7 +31,7 @@ func (t *HOTP) normalize() *HOTP {
 }
 
 func (t *HOTP) SetSecret(secret string) OTP {
-	if len(secret) == 0 {
+	if !ValidSecret(secret, t.SecretLength) {
 		t.OTP.Secret = GenerateSecret(t.SecretLength)
 	} else {
 		t.OTP.Secret = secret

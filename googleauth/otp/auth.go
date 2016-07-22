@@ -12,44 +12,47 @@ func ValidType(t string) bool {
 }
 
 type Authenticator struct {
-	Type       string
-	mux_auth   *sync.RWMutex
-	OTPAuth    map[string]OTP
-	mux_open   *sync.RWMutex
-	OTPOpen    map[string]bool
-	mux_active *sync.RWMutex
-	OTPActive  map[string]bool
+	Type         string
+	SecretLength int
+	mux_auth     *sync.RWMutex
+	OTPAuth      map[string]OTP
+	mux_open     *sync.RWMutex
+	OTPOpen      map[string]bool
+	mux_active   *sync.RWMutex
+	OTPActive    map[string]bool
 }
 
-func NewAuthenticator(_type string) (*Authenticator, error) {
+func NewAuthenticator(_type string, secretLength int) (*Authenticator, error) {
 	if !ValidType(_type) {
 		return nil, ErrType
 	}
 	return &Authenticator{
-		Type:       _type,
-		mux_auth:   new(sync.RWMutex),
-		OTPAuth:    make(map[string]OTP),
-		mux_open:   new(sync.RWMutex),
-		OTPOpen:    make(map[string]bool),
-		mux_active: new(sync.RWMutex),
-		OTPActive:  make(map[string]bool),
+		Type:         _type,
+		SecretLength: secretLength,
+		mux_auth:     new(sync.RWMutex),
+		OTPAuth:      make(map[string]OTP),
+		mux_open:     new(sync.RWMutex),
+		OTPOpen:      make(map[string]bool),
+		mux_active:   new(sync.RWMutex),
+		OTPActive:    make(map[string]bool),
 	}, nil
 }
 
-func (a *Authenticator) AddSecret(id, secret string, secretLength int) (OTP, error) {
+func (a *Authenticator) AddSecret(id, secret string, update bool) (OTP, error) {
 	if len(id) == 0 {
 		return nil, ErrID
 	}
 	a.mux_auth.Lock()
 	defer a.mux_auth.Unlock()
-	if v, ok := a.OTPAuth[id]; ok {
+	if update {
+	} else if v, ok := a.OTPAuth[id]; ok {
 		return v, ErrExist
 	}
 	switch a.Type {
 	case TypeTOTP:
-		a.OTPAuth[id] = NewTOTP(3, secretLength).SetSecret(secret)
+		a.OTPAuth[id] = NewTOTP(3, a.SecretLength).SetSecret(secret)
 	case TypeHOTP:
-		a.OTPAuth[id] = NewHOTP(5, secretLength).SetSecret(secret)
+		a.OTPAuth[id] = NewHOTP(5, a.SecretLength).SetSecret(secret)
 	default:
 		return nil, ErrType
 	}
