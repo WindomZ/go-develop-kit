@@ -12,5 +12,8 @@ func decorateErrorString(str string) error {
 }
 
 func decorateError(err error) error {
-	return decorateErrorString(err.Error())
+	if err != nil {
+		return decorateErrorString(err.Error())
+	}
+	return nil
 }

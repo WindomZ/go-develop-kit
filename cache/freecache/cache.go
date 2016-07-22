@@ -25,17 +25,24 @@ func (c *Cache) SetBytes(key string, value []byte, expireSeconds ...int) error {
 	if len(key) == 0 {
 		return ErrNoKey
 	}
+	var err error
 	if expireSeconds != nil && len(expireSeconds) != 0 {
-		return c.Ex().Set([]byte(key), value, expireSeconds[0])
+		err = c.Ex().Set([]byte(key), value, expireSeconds[0])
+	} else {
+		err = c.Ex().Set([]byte(key), value, c.ExpireSeconds)
 	}
-	return c.Ex().Set([]byte(key), value, c.ExpireSeconds)
+	if err != nil {
+		return decorateError(err)
+	}
+	return nil
 }
 
 func (c *Cache) GetBytes(key string) ([]byte, error) {
 	if len(key) == 0 {
 		return []byte{}, ErrNoKey
 	}
-	return c.Ex().Get([]byte(key))
+	v, err := c.Ex().Get([]byte(key))
+	return v, decorateError(err)
 }
 
 func (c *Cache) SetString(key string, value string, expireSeconds ...int) error {
@@ -44,7 +51,7 @@ func (c *Cache) SetString(key string, value string, expireSeconds ...int) error 
 
 func (c *Cache) GetString(key string) (string, error) {
 	if v, err := c.GetBytes(key); err != nil {
-		return "", decorateError(err)
+		return "", err
 	} else {
 		return string(v), nil
 	}
@@ -62,13 +69,13 @@ func (c *Cache) SetInterface(key string, value interface{}, expireSeconds ...int
 	return nil
 }
 
-func (c *Cache) GetInterface(key string, value interface{}) error {
+func (c *Cache) GetInterface(key string, value interface{}) (interface{}, error) {
 	if value == nil {
-		return ErrNoValue
+		return value, ErrNoValue
+	} else if data, err := c.GetBytes(key); err != nil {
+		return value, err
+	} else if err := json.Unmarshal(data, value); err != nil {
+		return value, decorateError(err)
 	}
-	v, err := c.GetBytes(key)
-	if err != nil {
-		return decorateError(err)
-	}
-	return json.Unmarshal(v, value)
+	return value, nil
 }

@@ -43,7 +43,7 @@ func TestCache_Interface(t *testing.T) {
 		t.Fatal(err)
 	}
 	var d2 TestDemo1
-	if err := c.GetInterface(key, &d2); err != nil {
+	if _, err := c.GetInterface(key, &d2); err != nil {
 		t.Fatal(err)
 	} else if d1.Int != d2.Int {
 		t.Fatal("Diffence int")
