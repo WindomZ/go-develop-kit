@@ -48,5 +48,5 @@ func NewCache(c *Config) ICache {
 	} else if c.MoreInterface {
 		return NewGoCache(c.ExpireSeconds, c.CleanupInterval)
 	}
-	return NewFreeCache(1024, c.ExpireSeconds)
+	return NewFreeCache(c.Size, c.ExpireSeconds)
 }
