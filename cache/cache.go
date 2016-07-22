@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type ICache interface {
+type Cache interface {
 	SetBytes(key string, value []byte, expireSeconds ...int) error
 	GetBytes(key string) ([]byte, error)
 	SetString(key string, value string, expireSeconds ...int) error
@@ -40,7 +40,7 @@ func NewGoCache(expireSeconds, cleanupSeconds int) *gocache.Cache {
 		time.Duration(cleanupSeconds)*time.Second)
 }
 
-func NewCache(c *Config) ICache {
+func NewCache(c *Config) Cache {
 	if c == nil {
 		return NewCache(DefaultConfig)
 	} else if c.MoreString {

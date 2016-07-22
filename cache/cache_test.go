@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var c ICache
+var c Cache
 
 func TestNewCache(t *testing.T) {
 	c = NewCache(&Config{
