@@ -1,15 +1,11 @@
 package googleauth
 
-import (
-	"encoding/base32"
-	"github.com/stretchr/testify/assert"
-	"testing"
-)
+import "testing"
 
 func TestGenerateRandomSecret(t *testing.T) {
 	for i := 0; i < 1000; i++ {
-		secret := GenerateRandomSecret(20, true)
-		_, err := base32.StdEncoding.DecodeString(secret)
-		assert.Nil(t, err)
+		if !ValidSecret(GenerateRandomSecret(20, true), 20, true) {
+			t.Fatal("Fail to valid secret")
+		}
 	}
 }

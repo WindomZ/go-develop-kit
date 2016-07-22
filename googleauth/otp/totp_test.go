@@ -9,7 +9,7 @@ func TestTOTP_URL(t *testing.T) {
 	if true {
 		return
 	}
-	o := NewTOTP(3)
+	o := NewTOTP(3, 16)
 	t.Logf("url: %v", o.URL("totp", "https://github.com/WindomZ/go-develop-kit/tree/master/googleauth"))
 	t.Logf("secret: %v", o.GetSecret())
 }
@@ -18,12 +18,12 @@ func TestTOTP_Verify(t *testing.T) {
 	if true {
 		return
 	}
-	password := "109478"
+	password := "766930"
 	if len(password) == 0 {
 		return
 	}
-	o := NewTOTP(3).
-		SetSecret("OZGGQ5DZGZMXQM2FIZUFK3D2NB2HAVDCLE2XQUSKKVIDGZKBGBME4YKSGVDGOWRRKBXTA43QIVUTA2DNLBGTA5TVINRWGY2VNFLWMSTUOJWESUCTKZVEG2CLNNQXGTRTGJWHOR2JGRBXSNCJPB4TGSTZMJCHS4JY")
+	o := NewTOTP(3, 6).
+		SetSecret("52FF7CCEWHNLESTV")
 	start := time.Now()
 	for {
 		ok, err := o.Verify(password)

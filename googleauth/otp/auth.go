@@ -36,7 +36,7 @@ func NewAuthenticator(_type string) (*Authenticator, error) {
 	}, nil
 }
 
-func (a *Authenticator) AddSecret(id, secret string) (OTP, error) {
+func (a *Authenticator) AddSecret(id, secret string, secretLength int) (OTP, error) {
 	if len(id) == 0 {
 		return nil, ErrID
 	}
@@ -47,9 +47,9 @@ func (a *Authenticator) AddSecret(id, secret string) (OTP, error) {
 	}
 	switch a.Type {
 	case TypeTOTP:
-		a.OTPAuth[id] = NewTOTP(3).SetSecret(secret)
+		a.OTPAuth[id] = NewTOTP(3, secretLength).SetSecret(secret)
 	case TypeHOTP:
-		a.OTPAuth[id] = NewHOTP(5).SetSecret(secret)
+		a.OTPAuth[id] = NewHOTP(5, secretLength).SetSecret(secret)
 	default:
 		return nil, ErrType
 	}

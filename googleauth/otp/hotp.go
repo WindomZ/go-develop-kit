@@ -3,18 +3,23 @@ package otp
 import "github.com/WindomZ/go-develop-kit/googleauth"
 
 type HOTP struct {
-	OTP googleauth.OTPConfig
+	OTP          googleauth.OTPConfig
+	SecretLength int
 }
 
-func NewHOTP(windowSize int) *HOTP {
+func NewHOTP(windowSize, secretLength int) *HOTP {
 	if windowSize <= 0 {
 		windowSize = googleauth.DefaultWindowSize
+	}
+	if secretLength <= 0 {
+		secretLength = googleauth.DefaultRandomSecretLength
 	}
 	return &HOTP{
 		OTP: googleauth.OTPConfig{
 			WindowSize:  windowSize,
 			HotpCounter: 1,
 		},
+		SecretLength: secretLength,
 	}
 }
 
@@ -27,7 +32,7 @@ func (t *HOTP) normalize() *HOTP {
 
 func (t *HOTP) SetSecret(secret string) OTP {
 	if len(secret) == 0 {
-		t.OTP.Secret = GenerateSecret()
+		t.OTP.Secret = GenerateSecret(t.SecretLength)
 	} else {
 		t.OTP.Secret = secret
 	}
@@ -46,7 +51,7 @@ func (t *HOTP) ValidSecret() bool {
 		t.SetSecret("")
 		return true
 	}
-	return ValidSecret(t.GetSecret())
+	return ValidSecret(t.GetSecret(), t.SecretLength)
 }
 
 func (t *HOTP) URL(user, issuer string) string {
