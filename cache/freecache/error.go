@@ -3,9 +3,8 @@ package freecache
 import "errors"
 
 var (
-	ErrNoKey           error = decorateErrorString("The key is empty")
-	ErrNoValue               = decorateErrorString("The value is nil")
-	ErrNotSupportValue       = decorateErrorString("The value type is not supoort")
+	ErrNoKey   error = decorateErrorString("The key is empty")
+	ErrNoValue       = decorateErrorString("The value is nil")
 )
 
 func decorateErrorString(str string) error {
