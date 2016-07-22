@@ -1,6 +1,7 @@
 package gocache
 
 import (
+	"github.com/WindomZ/go-struct-filler"
 	"github.com/patrickmn/go-cache"
 	"time"
 )
@@ -54,7 +55,7 @@ func (c *Cache) SetInterface(key string, value interface{}, expireSeconds ...int
 		return ErrNoValue
 	}
 	if expireSeconds != nil && len(expireSeconds) != 0 {
-		c.Ex().Set(key, value, time.Duration(expireSeconds[0]))
+		c.Ex().Set(key, value, time.Duration(expireSeconds[0])*time.Second)
 	} else {
 		c.Ex().Set(key, value, c.ExpireSeconds)
 	}
@@ -65,6 +66,9 @@ func (c *Cache) GetInterface(key string, value interface{}) (interface{}, error)
 	if len(key) == 0 {
 		return value, ErrNoKey
 	} else if v, ok := c.Ex().Get(key); ok {
+		if value != nil {
+			gsf.ConvertStruct(v, value)
+		}
 		return v, nil
 	}
 	return value, ErrNotExistKey
