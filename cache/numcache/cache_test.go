@@ -23,7 +23,7 @@ func TestCache_Int64(t *testing.T) {
 }
 
 func TestCache_Float64(t *testing.T) {
-	const KEY string = "TestInt"
+	const KEY string = "TestFloat"
 	const VALUE float64 = 100.234
 	c.SetFloat64(KEY, VALUE)
 	if v, ok := c.GetFloat64(KEY); !ok {
