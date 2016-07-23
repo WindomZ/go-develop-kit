@@ -20,6 +20,22 @@ func TestNewCache(t *testing.T) {
 	}
 }
 
+func TestCache_Delete(t *testing.T) {
+	var key string = "key"
+	var value []byte = []byte("test")
+	if err := c.SetBytes(key, value); err != nil {
+		t.Fatal(err)
+	} else if v, err := c.GetBytes(key); err != nil {
+		t.Fatal(err)
+	} else if len(v) != len(value) {
+		t.Fatal("Diffence bytes")
+	} else if !c.Delete(key) {
+		t.Fatal("Error delete")
+	} else if _, err := c.GetBytes(key); err == nil {
+		t.Fatal("Fail to delete")
+	}
+}
+
 func TestCache_String(t *testing.T) {
 	var key, value string = "key", "test 123 ABC 中文 !@#"
 	if err := c.SetString(key, value); err != nil {

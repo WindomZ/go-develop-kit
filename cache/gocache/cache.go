@@ -22,6 +22,11 @@ func (c *Cache) Ex() *cache.Cache {
 	return &c.base
 }
 
+func (c *Cache) Delete(key string) bool {
+	c.Ex().Delete(key)
+	return true
+}
+
 func (c *Cache) SetBytes(key string, value []byte, expireSeconds ...int) error {
 	return c.SetInterface(key, value, expireSeconds...)
 }

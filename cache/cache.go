@@ -7,6 +7,7 @@ import (
 )
 
 type Cache interface {
+	Delete(key string) bool
 	SetBytes(key string, value []byte, expireSeconds ...int) error
 	GetBytes(key string) ([]byte, error)
 	SetString(key string, value string, expireSeconds ...int) error

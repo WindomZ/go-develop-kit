@@ -21,6 +21,10 @@ func (c *Cache) Ex() *freecache.Cache {
 	return &c.base
 }
 
+func (c *Cache) Delete(key string) bool {
+	return c.Ex().Del([]byte(key))
+}
+
 func (c *Cache) SetBytes(key string, value []byte, expireSeconds ...int) error {
 	if len(key) == 0 {
 		return ErrNoKey
