@@ -69,10 +69,12 @@ func (c *Cache) SetInterface(key string, value interface{}, expireSeconds ...int
 	return nil
 }
 
-func (c *Cache) GetInterface(key string, value interface{}) (interface{}, error) {
-	if value == nil {
-		return value, ErrNoValue
-	} else if data, err := c.GetBytes(key); err != nil {
+func (c *Cache) GetInterface(key string, values ...interface{}) (interface{}, error) {
+	if values == nil || len(values) == 0 {
+		return nil, ErrNoValue
+	}
+	value := values[0]
+	if data, err := c.GetBytes(key); err != nil {
 		return value, err
 	} else if err := json.Unmarshal(data, value); err != nil {
 		return value, decorateError(err)

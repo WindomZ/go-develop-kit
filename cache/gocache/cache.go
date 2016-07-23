@@ -27,7 +27,7 @@ func (c *Cache) SetBytes(key string, value []byte, expireSeconds ...int) error {
 }
 
 func (c *Cache) GetBytes(key string) ([]byte, error) {
-	if v, err := c.GetInterface(key, ""); err != nil {
+	if v, err := c.GetInterface(key); err != nil {
 		return []byte{}, err
 	} else if data, ok := v.([]byte); ok {
 		return data, nil
@@ -40,7 +40,7 @@ func (c *Cache) SetString(key string, value string, expireSeconds ...int) error 
 }
 
 func (c *Cache) GetString(key string) (string, error) {
-	if v, err := c.GetInterface(key, ""); err != nil {
+	if v, err := c.GetInterface(key); err != nil {
 		return "", err
 	} else if str, ok := v.(string); ok {
 		return str, nil
@@ -62,7 +62,11 @@ func (c *Cache) SetInterface(key string, value interface{}, expireSeconds ...int
 	return nil
 }
 
-func (c *Cache) GetInterface(key string, value interface{}) (interface{}, error) {
+func (c *Cache) GetInterface(key string, values ...interface{}) (interface{}, error) {
+	var value interface{} = nil
+	if values != nil && len(values) != 0 {
+		value = values[0]
+	}
 	if len(key) == 0 {
 		return value, ErrNoKey
 	} else if v, ok := c.Ex().Get(key); ok {
