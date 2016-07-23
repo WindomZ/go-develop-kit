@@ -21,14 +21,13 @@ func (item *Item) Expired() bool {
 
 type Cache struct {
 	defaultExpiration time.Duration
-	mux               *sync.RWMutex
+	mux               sync.RWMutex
 	items             map[string]Item
 }
 
 func NewCache(defaultExpiration time.Duration) *Cache {
 	return &Cache{
 		defaultExpiration: defaultExpiration,
-		mux:               new(sync.RWMutex),
 		items:             make(map[string]Item),
 	}
 }
