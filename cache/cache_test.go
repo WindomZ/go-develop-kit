@@ -47,14 +47,16 @@ func TestCache_Interface(t *testing.T) {
 	if err := c.SetInterface(key, d1); err != nil {
 		t.Fatal(err)
 	}
-	var d2 TestDemo1
-	if _, err := c.GetInterface(key, &d2); err != nil {
-		t.Fatal(err)
-	} else if d1.Int != d2.Int {
-		t.Fatal("Diffence int")
-	} else if d1.String != d2.String {
-		t.Fatal("Diffence string")
-	} else if !d1.Time.Equal(d2.Time) {
-		t.Fatal("Diffence time")
+	for i := 0; i < 100; i++ {
+		var d2 TestDemo1
+		if _, err := c.GetInterface(key, &d2); err != nil {
+			t.Fatal(err)
+		} else if d1.Int != d2.Int {
+			t.Fatal("Diffence int")
+		} else if d1.String != d2.String {
+			t.Fatal("Diffence string")
+		} else if !d1.Time.Equal(d2.Time) {
+			t.Fatal("Diffence time")
+		}
 	}
 }
