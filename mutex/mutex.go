@@ -14,40 +14,59 @@ func NewMutex() *Mutex {
 	return new(Mutex)
 }
 
-func (mux *Mutex) MustLock() {
-	mux.Lock()
-	atomic.StoreInt32(&mux.count, 1)
+// Lock locks m.
+// If the lock is already in use, the calling goroutine
+// blocks until the mutex is available.
+func (m *Mutex) Lock() {
+	m.MustLock()
 }
 
-func (mux *Mutex) SafeLock() {
-	if atomic.SwapInt32(&mux.count, 1) <= 0 {
-		mux.Lock()
+// Same as Lock()
+func (m *Mutex) MustLock() {
+	m.Mutex.Lock()
+	atomic.StoreInt32(&m.count, 1)
+}
+
+func (m *Mutex) SafeLock() {
+	if atomic.SwapInt32(&m.count, 1) <= 0 {
+		m.Mutex.Lock()
 	}
 }
 
-func (mux *Mutex) UnsafeLock() {
-	if atomic.CompareAndSwapInt32(&mux.count, 0, 1) {
-		mux.Lock()
-	} else if atomic.LoadInt32(&mux.count) >= 1 {
-		atomic.AddInt32(&mux.count, 1)
+func (m *Mutex) UnsafeLock() {
+	if atomic.CompareAndSwapInt32(&m.count, 0, 1) {
+		m.Mutex.Lock()
+	} else if atomic.LoadInt32(&m.count) >= 1 {
+		atomic.AddInt32(&m.count, 1)
 	}
 }
 
-func (mux *Mutex) MustUnlock() {
-	mux.Unlock()
-	atomic.StoreInt32(&mux.count, 0)
+// Unlock unlocks m.
+// It is a run-time error if m is not locked on entry to Unlock.
+//
+// A locked Mutex is not associated with a particular goroutine.
+// It is allowed for one goroutine to lock a Mutex and then
+// arrange for another goroutine to unlock it.
+func (m *Mutex) Unlock() {
+	m.MustUnlock()
 }
 
-func (mux *Mutex) SafeUnlock() {
-	if atomic.SwapInt32(&mux.count, 0) >= 1 {
-		mux.Unlock()
+// Same as Unlock()
+func (m *Mutex) MustUnlock() {
+	m.Mutex.Unlock()
+	atomic.StoreInt32(&m.count, 0)
+}
+
+func (m *Mutex) SafeUnlock() {
+	if atomic.SwapInt32(&m.count, 0) >= 1 {
+		m.Mutex.Unlock()
 	}
 }
 
-func (mux *Mutex) UnsafeUnlock() {
-	if atomic.CompareAndSwapInt32(&mux.count, 1, 0) {
-		mux.Unlock()
-	} else if atomic.LoadInt32(&mux.count) > 1 {
-		atomic.AddInt32(&mux.count, -1)
+func (m *Mutex) UnsafeUnlock() {
+	if atomic.CompareAndSwapInt32(&m.count, 1, 0) {
+		m.Mutex.Unlock()
+	} else if atomic.LoadInt32(&m.count) > 1 {
+		atomic.AddInt32(&m.count, -1)
 	}
 }
