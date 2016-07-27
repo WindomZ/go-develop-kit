@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"database/sql/driver"
 	"errors"
-	. "github.com/WindomZ/go-macro/math"
+	. "github.com/WindomZ/go-develop-kit/math"
 	"math"
 	"strconv"
 	"strings"
@@ -30,9 +30,9 @@ func NewIntPriceFloat(value float64, places ...int) IntPrice {
 	if value == 0 {
 		return NewIntPrice(0)
 	} else if places != nil && len(places) != 0 {
-		return NewIntPrice(int64(FloatFixed(value, places[0]) * IntPricePow))
+		return NewIntPrice(FloatFixedToInt(value, places[0]))
 	}
-	return NewIntPrice(int64(FloatFixed(value, IntPricePrecision) * IntPricePow))
+	return NewIntPrice(FloatFixedToInt(value, IntPricePrecision))
 }
 
 func NewIntPriceString(value string) IntPrice {
@@ -121,9 +121,9 @@ func (p *IntPrice) SetFloat64(f float64, places ...int) *IntPrice {
 	if f == 0 {
 		return p.SetInt64(0)
 	} else if places != nil && len(places) != 0 {
-		return p.SetInt64(int64(FloatFixed(f, places[0]) * IntPricePow))
+		return p.SetInt64(FloatFixedToInt(f, places[0]))
 	}
-	return p.SetInt64(int64(FloatFixed(f, IntPricePrecision) * IntPricePow))
+	return p.SetInt64(FloatFixedToInt(f, IntPricePrecision))
 }
 
 func (p IntPrice) String() string {
@@ -222,6 +222,25 @@ func (p IntPrice) GetDiff(x ...IntPrice) IntPrice {
 		diff -= y.Int64()
 	}
 	return NewIntPrice(diff)
+}
+
+// rounded product p*+x... and returns p
+func (p *IntPrice) GetMul(x ...IntPrice) IntPrice {
+	mul := p.Int64()
+	for _, y := range x {
+		mul *= y.Int64()
+		mul /= int64(IntPricePow)
+	}
+	return NewIntPrice(mul)
+}
+
+// rounded quotient p/+x... and returns p
+func (p *IntPrice) GetQuo(x ...IntPrice) IntPrice {
+	quo := p.Int64()
+	for _, y := range x {
+		quo /= y.Int64()
+	}
+	return NewIntPrice(quo)
 }
 
 // returns negation

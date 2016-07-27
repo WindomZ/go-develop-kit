@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"database/sql/driver"
 	"errors"
-	. "github.com/WindomZ/go-macro/math"
+	. "github.com/WindomZ/go-develop-kit/math"
 	"math"
 	"strconv"
 	"strings"
@@ -98,7 +98,7 @@ func (p *FloatPrice) Scan(src interface{}) error {
 }
 
 func (p FloatPrice) Int64() int64 {
-	return int64(FloatFixed(p.Float64()*FloatPricePow, FloatPricePrecision))
+	return FloatFixedToInt(p.Float64(), FloatPricePrecision)
 }
 
 func (p *FloatPrice) SetInt64(i int64, places ...int) *FloatPrice {

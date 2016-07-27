@@ -12,25 +12,59 @@ type testIntPrice struct {
 	Price4 IntPrice `json:"price4"`
 }
 
-func TestJSONIntPrice(t *testing.T) {
+func TestNewIntPrice(t *testing.T) {
 	SetIntPricePrecision(5)
+}
+
+func TestJSONIntPrice(t *testing.T) {
 	p := &testIntPrice{
 		Price1: NewIntPrice(101234),
 		Price2: NewIntPriceFloat(2.012345),
 		Price3: NewIntPriceString("301234"),
 		Price4: NewIntPriceFloatString("4.012345"),
 	}
-	t.Logf("%#v", p)
 	data, err := gojson.Marshal(p)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("%#v", string(data))
 	var pp testIntPrice
 	if err := gojson.Unmarshal(data, &pp); err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("%#v", pp)
+	if err := gojson.Unmarshal(data, &pp); err != nil {
+		t.Fatal(err)
+	}
+	if p.Price1.Float64() != 1.01234 {
+		t.Fatal("Error Price1:", p.Price1.Float64())
+	}
+	if p.Price2.Float64() != 2.01235 {
+		t.Fatal("Error Price2:", p.Price2.Float64())
+	}
+	if p.Price3.Float64() != 3.01234 {
+		t.Fatal("Error Price3:", p.Price3.Float64())
+	}
+	if p.Price4.Float64() != 4.01235 {
+		t.Fatal("Error Price4:", p.Price4.Float64())
+	}
+}
+
+func TestIntPrice_GetMul(t *testing.T) {
+	p1 := NewIntPrice(101234)
+	p2 := NewIntPriceFloat(2.012345)
+	p3 := NewIntPriceFloat(3.012345)
+	p := p1.GetMul(p2, p3)
+	if p.Int64() != 613669 {
+		t.Fatal(p.Int64())
+	}
+}
+
+func TestIntPrice_GetQuo(t *testing.T) {
+	p1 := NewIntPrice(501234)
+	p2 := NewIntPriceFloat(2.012345)
+	p := p1.GetQuo(p2)
+	if p.Int64() != 2 {
+		t.Fatal(p.Int64())
+	}
 }
 
 func TestIntPrice_GetNegation(t *testing.T) {
