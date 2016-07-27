@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	FloatPricePrecision int     = 2
+	FloatPricePrecision int     = 8
 	FloatPricePow       float64 = math.Pow10(FloatPricePrecision)
 )
 
