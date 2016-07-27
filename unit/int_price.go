@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	IntPricePrecision int     = 5
+	IntPricePrecision int     = 2
 	IntPricePow       float64 = math.Pow10(IntPricePrecision)
 )
 
@@ -30,7 +30,7 @@ func NewIntPriceFloat(value float64, places ...int) IntPrice {
 	if value == 0 {
 		return NewIntPrice(0)
 	} else if places != nil && len(places) != 0 {
-		return NewIntPrice(FloatFixedToInt(value, places[0]))
+		value = FloatFixed(value, places[0])
 	}
 	return NewIntPrice(FloatFixedToInt(value, IntPricePrecision))
 }
@@ -121,7 +121,7 @@ func (p *IntPrice) SetFloat64(f float64, places ...int) *IntPrice {
 	if f == 0 {
 		return p.SetInt64(0)
 	} else if places != nil && len(places) != 0 {
-		return p.SetInt64(FloatFixedToInt(f, places[0]))
+		f = FloatFixed(f, places[0])
 	}
 	return p.SetInt64(FloatFixedToInt(f, IntPricePrecision))
 }

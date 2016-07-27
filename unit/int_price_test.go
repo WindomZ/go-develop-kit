@@ -48,6 +48,18 @@ func TestJSONIntPrice(t *testing.T) {
 	}
 }
 
+func TestIntPrice_SetFloat64(t *testing.T) {
+	p := NewIntPriceFloat(1.012345)
+	p.SetFloat64(2.0125, 3)
+	if p.Int64() != 201300 {
+		t.Fatal("Error:", p.Int64())
+	}
+	p.SetFloat64(4.0125, 3)
+	if p.Int64() != 401300 {
+		t.Fatal("Error:", p.Int64())
+	}
+}
+
 func TestIntPrice_GetMul(t *testing.T) {
 	p1 := NewIntPrice(101234)
 	p2 := NewIntPriceFloat(2.012345)
