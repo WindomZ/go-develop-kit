@@ -32,6 +32,10 @@ func NewCache(defaultExpiration time.Duration) *Cache {
 	}
 }
 
+func (c *Cache) DefaultExpiration() time.Duration {
+	return c.defaultExpiration
+}
+
 func (c *Cache) SetInt64(k string, v int64, ds ...time.Duration) {
 	var e int64
 	d := c.defaultExpiration
