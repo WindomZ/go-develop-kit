@@ -32,7 +32,12 @@ func NewFloatPrice(f float64, places ...int) FloatPrice {
 }
 
 func NewFloatPriceInt(i int64, places ...int) FloatPrice {
-	return NewFloatPrice(float64(i)/FloatPricePow, places...)
+	if i == 0 {
+		return FloatPrice(0)
+	} else if places != nil && len(places) != 0 {
+		return FloatPrice(FloatDivFixed(float64(i), FloatPricePow, places[0]))
+	}
+	return FloatPrice(FloatDivFixed(float64(i), FloatPricePow, FloatPricePrecision))
 }
 
 func NewFloatPriceString(value string, places ...int) FloatPrice {
@@ -62,7 +67,8 @@ func (p *FloatPrice) MarshalJSON() ([]byte, error) {
 func (p *FloatPrice) UnmarshalJSON(data []byte) error {
 	if p == nil {
 		return errors.New("UnmarshalJSON on nil pointer")
-	} else if f, err := strconv.ParseFloat(strings.Replace(string(data), `"`, ``, -1), 64); err != nil {
+	} else if f, err := strconv.ParseFloat(strings.Replace(string(data),
+		`"`, ``, -1), 64); err != nil {
 		return err
 	} else {
 		p.SetFloat64(f)
@@ -102,7 +108,8 @@ func (p FloatPrice) Int64() int64 {
 }
 
 func (p *FloatPrice) SetInt64(i int64, places ...int) *FloatPrice {
-	return p.SetFloat64(float64(i)/FloatPricePow, places...)
+	*p = NewFloatPriceInt(i, places...)
+	return p
 }
 
 func (p FloatPrice) Float64() float64 {
@@ -111,9 +118,9 @@ func (p FloatPrice) Float64() float64 {
 
 func (p FloatPrice) ReciprocalFloat64(places ...int) float64 {
 	if places != nil && len(places) != 0 {
-		return FloatFixed(1/p.Float64(), places[0])
+		return FloatDivFixed(1, p.Float64(), places[0])
 	}
-	return FloatFixed(1/p.Float64(), FloatPricePrecision)
+	return FloatDivFixed(1, p.Float64(), FloatPricePrecision)
 }
 
 func (p *FloatPrice) SetFloat64(f float64, places ...int) *FloatPrice {
@@ -171,22 +178,30 @@ func (p *FloatPrice) GreaterEqual(f float64) bool {
 
 // rounded p+q and returns p
 func (p *FloatPrice) Add(q FloatPrice) *FloatPrice {
-	return p.SetFloat64(p.Float64() + q.Float64())
+	*p = FloatPrice(FloatSumFixed(p.Float64(), q.Float64(),
+		FloatPricePrecision))
+	return p
 }
 
 // rounded p-q and returns p
 func (p *FloatPrice) Sub(q FloatPrice) *FloatPrice {
-	return p.SetFloat64(p.Float64() - q.Float64())
+	*p = FloatPrice(FloatSubFixed(p.Float64(), q.Float64(),
+		FloatPricePrecision))
+	return p
 }
 
 // rounded product p*q and returns p
 func (p *FloatPrice) Mul(q FloatPrice) *FloatPrice {
-	return p.SetFloat64(p.Float64() * q.Float64())
+	*p = FloatPrice(FloatMulFixed(p.Float64(), q.Float64(),
+		FloatPricePrecision))
+	return p
 }
 
 // rounded quotient p/q and returns p
 func (p *FloatPrice) Quo(q FloatPrice) *FloatPrice {
-	return p.SetFloat64(p.Float64() / q.Float64())
+	*p = FloatPrice(FloatDivFixed(p.Float64(), q.Float64(),
+		FloatPricePrecision))
+	return p
 }
 
 // rounded p+x... and returns p
@@ -207,20 +222,34 @@ func (p *FloatPrice) Diff(x ...FloatPrice) *FloatPrice {
 
 // rounded p+x... and returns
 func (p FloatPrice) GetSum(x ...FloatPrice) FloatPrice {
-	sum := p.Float64()
-	for _, y := range x {
-		sum += y.Float64()
+	if x == nil || len(x) == 0 {
+		return p
+	} else if len(x) == 1 {
+		return FloatPrice(FloatSumFixed(p.Float64(),
+			x[0].Float64(), FloatPricePrecision))
 	}
-	return NewFloatPrice(sum)
+	xs := make([]float64, 0, len(x))
+	for _, y := range x {
+		xs = append(xs, y.Float64())
+	}
+	return FloatPrice(FloatSumFixed(p.Float64(), 0,
+		FloatPricePrecision, xs...))
 }
 
 // rounded p+x... and returns
 func (p FloatPrice) GetDiff(x ...FloatPrice) FloatPrice {
-	diff := p.Float64()
-	for _, y := range x {
-		diff -= y.Float64()
+	if x == nil || len(x) == 0 {
+		return p
+	} else if len(x) == 1 {
+		return FloatPrice(FloatSubFixed(p.Float64(),
+			x[0].Float64(), FloatPricePrecision))
 	}
-	return NewFloatPrice(diff)
+	xs := make([]float64, 0, len(x))
+	for _, y := range x {
+		xs = append(xs, y.Float64())
+	}
+	return FloatPrice(FloatSubFixed(p.Float64(), 0,
+		FloatPricePrecision, xs...))
 }
 
 // returns negation

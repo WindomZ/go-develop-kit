@@ -52,6 +52,74 @@ func TestFloatPrice_Int64(t *testing.T) {
 	}
 }
 
+func TestFloatPrice_SetInt64(t *testing.T) {
+	p := NewFloatPrice(1.012345)
+	if p.Int64() != 101235 {
+		t.Fatal("Error:", p.Int64())
+	}
+	p.SetInt64(201235)
+	if p.Int64() != 201235 {
+		t.Fatal("Error:", p.Int64())
+	}
+}
+
+func TestFloatPrice_ReciprocalFloat64(t *testing.T) {
+	p := NewFloatPrice(1.012345)
+	if p.ReciprocalFloat64() != 0.9878 {
+		t.Fatal("Error:", p.ReciprocalFloat64())
+	}
+}
+
+func TestFloatPrice_Add(t *testing.T) {
+	p1 := NewFloatPrice(1.012345)
+	p2 := NewFloatPrice(2.012345)
+	if p1.Add(p2).Float64() != 3.0247 {
+		t.Fatal("Error:", p1.Float64())
+	}
+}
+
+func TestFloatPrice_Sub(t *testing.T) {
+	p1 := NewFloatPrice(1.012345)
+	p2 := NewFloatPrice(2.012345)
+	if p1.Sub(p2).Float64() != -1 {
+		t.Fatal("Error:", p1.Float64())
+	}
+}
+
+func TestFloatPrice_Mul(t *testing.T) {
+	p1 := NewFloatPrice(1.012345)
+	p2 := NewFloatPrice(2.012345)
+	if p1.Mul(p2).Float64() != 2.0372 {
+		t.Fatal("Error:", p1.Float64())
+	}
+}
+
+func TestFloatPrice_Quo(t *testing.T) {
+	p1 := NewFloatPrice(1.012345)
+	p2 := NewFloatPrice(2.012345)
+	if p1.Quo(p2).Float64() != 0.50307 {
+		t.Fatal("Error:", p1.Float64())
+	}
+}
+
+func TestFloatPrice_GetSum(t *testing.T) {
+	p1 := NewFloatPrice(1.012345)
+	p2 := NewFloatPrice(2.012345)
+	p3 := NewFloatPrice(3.012345)
+	if p := p1.GetSum(p2, p3); p.Float64() != 6.03705 {
+		t.Fatal("Error:", p.Float64())
+	}
+}
+
+func TestFloatPrice_GetDiff(t *testing.T) {
+	p1 := NewFloatPrice(1.012345)
+	p2 := NewFloatPrice(2.012345)
+	p3 := NewFloatPrice(3.012345)
+	if p := p1.GetDiff(p2, p3); p.Float64() != -4.01235 {
+		t.Fatal("Error:", p.Float64())
+	}
+}
+
 func TestFloatPrice_GetNegation(t *testing.T) {
 	var i int64 = 0
 	for ; i < 10; i++ {
