@@ -107,14 +107,14 @@ func (p *IntPrice) SetInt64(i int64) *IntPrice {
 }
 
 func (p IntPrice) Float64() float64 {
-	return float64(p) / IntPricePow
+	return FloatDivFixed(float64(p), IntPricePow, FloatPricePrecision)
 }
 
 func (p IntPrice) ReciprocalFloat64(places ...int) float64 {
 	if places != nil && len(places) != 0 {
-		return FloatFixed(1/p.Float64(), places[0])
+		return FloatDivFixed(IntPricePow, float64(p), places[0])
 	}
-	return FloatFixed(1/p.Float64(), FloatPricePrecision)
+	return FloatDivFixed(IntPricePow, float64(p), FloatPricePrecision)
 }
 
 func (p *IntPrice) SetFloat64(f float64, places ...int) *IntPrice {

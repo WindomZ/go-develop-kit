@@ -48,6 +48,18 @@ func TestJSONIntPrice(t *testing.T) {
 	}
 }
 
+func TestIntPrice_Float64(t *testing.T) {
+	p := NewIntPriceFloat(1.012345)
+	p.SetFloat64(2.0125, 3)
+	if p.Float64() != 2.013 {
+		t.Fatal("Error:", p.Float64())
+	}
+	p.SetFloat64(4.0125, 3)
+	if p.Float64() != 4.013 {
+		t.Fatal("Error:", p.Float64())
+	}
+}
+
 func TestIntPrice_SetFloat64(t *testing.T) {
 	p := NewIntPriceFloat(1.012345)
 	p.SetFloat64(2.0125, 3)
@@ -57,6 +69,13 @@ func TestIntPrice_SetFloat64(t *testing.T) {
 	p.SetFloat64(4.0125, 3)
 	if p.Int64() != 401300 {
 		t.Fatal("Error:", p.Int64())
+	}
+}
+
+func TestIntPrice_ReciprocalFloat64(t *testing.T) {
+	p := NewIntPriceFloat(1.012345)
+	if p.ReciprocalFloat64() != 0.9878 {
+		t.Fatal("Error:", p.ReciprocalFloat64())
 	}
 }
 
