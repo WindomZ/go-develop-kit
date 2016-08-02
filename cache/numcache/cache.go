@@ -151,3 +151,23 @@ func (c *Cache) IncrementFloat64(k string, v float64, ds ...time.Duration) float
 func (c *Cache) DecrementFloat64(k string, v float64, ds ...time.Duration) float64 {
 	return c.IncrementFloat64(k, -v, ds...)
 }
+
+func (c *Cache) MapInt64() map[string]int64 {
+	c.mux.Lock()
+	r := make(map[string]int64, len(c.items))
+	for k, v := range c.items {
+		r[k] = v.Int
+	}
+	c.mux.Unlock()
+	return r
+}
+
+func (c *Cache) MapFloat64() map[string]float64 {
+	c.mux.Lock()
+	r := make(map[string]float64, len(c.items))
+	for k, v := range c.items {
+		r[k] = v.Float
+	}
+	c.mux.Unlock()
+	return r
+}

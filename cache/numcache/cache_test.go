@@ -72,3 +72,23 @@ func TestCache_DecrementFloat64(t *testing.T) {
 		}
 	}
 }
+
+func TestCache_MapInt64(t *testing.T) {
+	const KEY string = "MapInt64"
+	const VALUE int64 = 12345
+	c.SetInt64(KEY, VALUE)
+	m := c.MapInt64()
+	if _, ok := m[KEY]; !ok {
+		t.Fatal("Error MapInt64!")
+	}
+}
+
+func TestCache_MapFloat64(t *testing.T) {
+	const KEY string = "MapFloat64"
+	const VALUE float64 = 1.2345
+	c.SetFloat64(KEY, VALUE)
+	m := c.MapFloat64()
+	if _, ok := m[KEY]; !ok {
+		t.Fatal("Error MapFloat64!")
+	}
+}
