@@ -90,8 +90,12 @@ func (c *Cache) GetFloat64(k string) (float64, bool) {
 	return 0, false
 }
 
-func (c *Cache) IncrementInt64(k string, v int64, d time.Duration) int64 {
+func (c *Cache) IncrementInt64(k string, v int64, ds ...time.Duration) int64 {
 	var e int64
+	d := c.defaultExpiration
+	if ds != nil && len(ds) != 0 {
+		d = ds[0]
+	}
 	if d > 0 {
 		e = time.Now().Add(d).UnixNano()
 	}
@@ -113,12 +117,16 @@ func (c *Cache) IncrementInt64(k string, v int64, d time.Duration) int64 {
 	return item.Int
 }
 
-func (c *Cache) DecrementInt64(k string, v int64, d time.Duration) int64 {
-	return c.IncrementInt64(k, -v, d)
+func (c *Cache) DecrementInt64(k string, v int64, ds ...time.Duration) int64 {
+	return c.IncrementInt64(k, -v, ds...)
 }
 
-func (c *Cache) IncrementFloat64(k string, v float64, d time.Duration) float64 {
+func (c *Cache) IncrementFloat64(k string, v float64, ds ...time.Duration) float64 {
 	var e int64
+	d := c.defaultExpiration
+	if ds != nil && len(ds) != 0 {
+		d = ds[0]
+	}
 	if d > 0 {
 		e = time.Now().Add(d).UnixNano()
 	}
@@ -140,6 +148,6 @@ func (c *Cache) IncrementFloat64(k string, v float64, d time.Duration) float64 {
 	return item.Float
 }
 
-func (c *Cache) DecrementFloat64(k string, v float64, d time.Duration) float64 {
-	return c.IncrementFloat64(k, -v, d)
+func (c *Cache) DecrementFloat64(k string, v float64, ds ...time.Duration) float64 {
+	return c.IncrementFloat64(k, -v, ds...)
 }
