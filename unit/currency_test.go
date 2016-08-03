@@ -86,8 +86,8 @@ func TestCurrencyJSON(t *testing.T) {
 	for _, v := range m {
 		switch v {
 		case "abc":
-		case "ABC":
-		case "123":
+		case "EFG":
+		case "456":
 		default:
 			t.Fatal("Error Map:", v)
 		}

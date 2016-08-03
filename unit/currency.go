@@ -79,13 +79,26 @@ func NewCurrency(s string) Currency {
 	return Currency(CurrencyMapping(s))
 }
 
+func (c Currency) String() string {
+	return string(c)
+}
+
+func (c Currency) StringMapping() string {
+	return CurrencyUnMapping(c.String())
+}
+
+func (c *Currency) SetString(s string) *Currency {
+	*c = NewCurrency(s)
+	return c
+}
+
 func (c *Currency) MarshalJSON() ([]byte, error) {
 	if c == nil {
 		return nil, errors.New("MarshalJSON on nil pointer")
 	}
 	var b bytes.Buffer
 	b.WriteByte('"')
-	b.WriteString(CurrencyUnMapping(c.String()))
+	b.WriteString(c.String())
 	b.WriteByte('"')
 	return b.Bytes(), nil
 }
@@ -99,7 +112,7 @@ func (c *Currency) UnmarshalJSON(data []byte) error {
 }
 
 func (c Currency) Value() (driver.Value, error) {
-	return c.String(), nil
+	return c.StringMapping(), nil
 }
 
 func (c *Currency) Scan(src interface{}) error {
@@ -117,19 +130,10 @@ func (c *Currency) Scan(src interface{}) error {
 	return nil
 }
 
-func (c Currency) String() string {
-	return string(c)
-}
-
-func (c *Currency) SetString(s string) *Currency {
-	*c = NewCurrency(s)
-	return c
-}
-
 func (c *Currency) Equal(s *Currency) bool {
 	return c.String() == s.String()
 }
 
 func (c *Currency) EqualString(s string) bool {
-	return c.String() == s
+	return c.String() == s || c.StringMapping() == s
 }
