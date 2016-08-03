@@ -6,8 +6,8 @@ import (
 )
 
 func TestNewCurrency(t *testing.T) {
-	SetCurrencyMapping("123", "456")
-	SetCurrencyMapping("ABC", "EFG")
+	SetCurrencyMapping("$", "USD")
+	SetCurrencyMapping("RMB", "CNY")
 }
 
 func TestSetCurrencyMappingFunc(t *testing.T) {
@@ -33,17 +33,17 @@ func TestSetCurrencyMappingFunc(t *testing.T) {
 }
 
 func TestCurrencyMapping(t *testing.T) {
-	if CurrencyMapping("123") != "456" {
+	if CurrencyMapping("$") != "USD" {
 		t.Fatal("Error CurrencyMapping")
-	} else if CurrencyMapping("ABC") != "EFG" {
+	} else if CurrencyMapping("RMB") != "CNY" {
 		t.Fatal("Error CurrencyMapping")
 	}
 }
 
 func TestCurrencyUnMapping(t *testing.T) {
-	if CurrencyUnMapping("456") != "123" {
+	if CurrencyUnMapping("USD") != "$" {
 		t.Fatal("Error CurrencyUnMapping")
-	} else if CurrencyUnMapping("EFG") != "ABC" {
+	} else if CurrencyUnMapping("CNY") != "RMB" {
 		t.Fatal("Error CurrencyUnMapping")
 	}
 }
@@ -57,10 +57,10 @@ type testCurrency struct {
 
 func TestCurrencyJSON(t *testing.T) {
 	c := &testCurrency{
-		C1: NewCurrency("abc"),
-		C2: NewCurrency("ABC"),
-		C3: NewCurrency("123"),
-		C4: NewCurrency("456"),
+		C1: NewCurrency("rmb"),
+		C2: NewCurrency("RMB"),
+		C3: NewCurrency("$"),
+		C4: NewCurrency("USD"),
 	}
 	data, err := gojson.Marshal(c)
 	if err != nil {
@@ -70,13 +70,13 @@ func TestCurrencyJSON(t *testing.T) {
 	if err := gojson.Unmarshal(data, &c); err != nil {
 		t.Fatal(err)
 	}
-	if c.C1.String() != "abc" {
+	if c.C1.String() != "rmb" {
 		t.Fatal("Error C1:", c.C1.String())
-	} else if c.C2.String() != "EFG" {
+	} else if c.C2.String() != "CNY" {
 		t.Fatal("Error C2:", c.C2.String())
-	} else if c.C3.String() != "456" {
+	} else if c.C3.String() != "USD" {
 		t.Fatal("Error C3:", c.C3.String())
-	} else if c.C4.String() != "456" {
+	} else if c.C4.String() != "USD" {
 		t.Fatal("Error C4:", c.C4.String())
 	}
 	var m map[string]string
@@ -85,9 +85,9 @@ func TestCurrencyJSON(t *testing.T) {
 	}
 	for _, v := range m {
 		switch v {
-		case "abc":
-		case "EFG":
-		case "456":
+		case "rmb":
+		case "RMB":
+		case "$":
 		default:
 			t.Fatal("Error Map:", v)
 		}

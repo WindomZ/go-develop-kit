@@ -98,7 +98,7 @@ func (c *Currency) MarshalJSON() ([]byte, error) {
 	}
 	var b bytes.Buffer
 	b.WriteByte('"')
-	b.WriteString(c.String())
+	b.WriteString(c.StringMapping())
 	b.WriteByte('"')
 	return b.Bytes(), nil
 }
@@ -112,7 +112,7 @@ func (c *Currency) UnmarshalJSON(data []byte) error {
 }
 
 func (c Currency) Value() (driver.Value, error) {
-	return c.StringMapping(), nil
+	return c.String(), nil
 }
 
 func (c *Currency) Scan(src interface{}) error {
