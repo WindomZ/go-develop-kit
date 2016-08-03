@@ -30,9 +30,9 @@ func NewIntPriceFloat(value float64, places ...int) IntPrice {
 	if value == 0 {
 		return NewIntPrice(0)
 	} else if places != nil && len(places) != 0 {
-		value = FloatFixed(value, places[0])
+		value = FloatRound(value, places[0])
 	}
-	return NewIntPrice(FloatFixedToInt(value, IntPricePrecision))
+	return NewIntPrice(FloatRoundToInt(value, IntPricePrecision))
 }
 
 func NewIntPriceString(value string) IntPrice {
@@ -107,23 +107,23 @@ func (p *IntPrice) SetInt64(i int64) *IntPrice {
 }
 
 func (p IntPrice) Float64() float64 {
-	return FloatDivFixed(float64(p), IntPricePow, IntPricePrecision)
+	return FloatDivRound(float64(p), IntPricePow, IntPricePrecision)
 }
 
 func (p IntPrice) ReciprocalFloat64(places ...int) float64 {
 	if places != nil && len(places) != 0 {
-		return FloatDivFixed(IntPricePow, float64(p), places[0])
+		return FloatDivRound(IntPricePow, float64(p), places[0])
 	}
-	return FloatDivFixed(IntPricePow, float64(p), IntPricePrecision)
+	return FloatDivRound(IntPricePow, float64(p), IntPricePrecision)
 }
 
 func (p *IntPrice) SetFloat64(f float64, places ...int) *IntPrice {
 	if f == 0 {
 		return p.SetInt64(0)
 	} else if places != nil && len(places) != 0 {
-		f = FloatFixed(f, places[0])
+		f = FloatRound(f, places[0])
 	}
-	return p.SetInt64(FloatFixedToInt(f, IntPricePrecision))
+	return p.SetInt64(FloatRoundToInt(f, IntPricePrecision))
 }
 
 func (p *IntPrice) Round(places int) *IntPrice {
