@@ -7,13 +7,31 @@ import (
 
 func TestNewCurrency(t *testing.T) {
 	SetCurrencyMapping("123", "456")
-	SetCurrencyMapping("ABC", "EFGHIJKL")
+	SetCurrencyMapping("ABC", "EFG")
+}
+
+func TestSetCurrencyMappingFunc(t *testing.T) {
+	SetCurrencyMappingFunc(func(s string) string {
+		switch s {
+		case "AAA":
+			return "bbb"
+		case "bbb":
+			return "AAA"
+		}
+		return s
+	})
+	if CurrencyMapping("AAA") != "bbb" {
+		t.Fatal("Error SetCurrencyMappingFunc")
+	} else if CurrencyMapping("bbb") != "AAA" {
+		t.Fatal("Error SetCurrencyMappingFunc")
+	}
+	SetCurrencyMappingFunc(nil)
 }
 
 func TestCurrencyMapping(t *testing.T) {
 	if CurrencyMapping("123") != "456" {
 		t.Fatal("Error CurrencyMapping")
-	} else if CurrencyMapping("ABC") != "EFGHIJKL" {
+	} else if CurrencyMapping("ABC") != "EFG" {
 		t.Fatal("Error CurrencyMapping")
 	}
 }
@@ -21,7 +39,7 @@ func TestCurrencyMapping(t *testing.T) {
 func TestCurrencyUnMapping(t *testing.T) {
 	if CurrencyUnMapping("456") != "123" {
 		t.Fatal("Error CurrencyUnMapping")
-	} else if CurrencyUnMapping("EFGHIJKL") != "ABC" {
+	} else if CurrencyUnMapping("EFG") != "ABC" {
 		t.Fatal("Error CurrencyUnMapping")
 	}
 }
@@ -50,11 +68,24 @@ func TestCurrencyJSON(t *testing.T) {
 	}
 	if c.C1.String() != "abc" {
 		t.Fatal("Error C1:", c.C1.String())
-	} else if c.C2.String() != "EFGHIJKL" {
+	} else if c.C2.String() != "EFG" {
 		t.Fatal("Error C2:", c.C2.String())
 	} else if c.C3.String() != "456" {
 		t.Fatal("Error C3:", c.C3.String())
 	} else if c.C4.String() != "456" {
 		t.Fatal("Error C4:", c.C4.String())
+	}
+	var m map[string]string
+	if err := gojson.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+	for _, v := range m {
+		switch v {
+		case "abc":
+		case "ABC":
+		case "123":
+		default:
+			t.Fatal("Error Map:", v)
+		}
 	}
 }

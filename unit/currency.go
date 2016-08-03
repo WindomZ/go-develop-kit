@@ -9,15 +9,26 @@ import (
 )
 
 var (
-	mux               *sync.RWMutex     = new(sync.RWMutex)
-	currencyMapping   map[string]string = make(map[string]string)
-	currencyUnMapping map[string]string = make(map[string]string)
+	mux                 *sync.RWMutex = new(sync.RWMutex)
+	currencyMappingFunc func(string) string
+	currencyMapping     map[string]string = nil
+	currencyUnMapping   map[string]string = nil
 )
+
+func SetCurrencyMappingFunc(f func(string) string) {
+	currencyMappingFunc = f
+}
 
 func SetCurrencyMapping(s, mapping string) {
 	if len(s) != 0 && len(mapping) != 0 && s != mapping {
 		mux.Lock()
+		if currencyMapping == nil {
+			currencyMapping = make(map[string]string)
+		}
 		currencyMapping[s] = mapping
+		if currencyUnMapping == nil {
+			currencyUnMapping = make(map[string]string)
+		}
 		currencyUnMapping[mapping] = s
 		mux.Unlock()
 	}
@@ -25,11 +36,15 @@ func SetCurrencyMapping(s, mapping string) {
 
 func CurrencyMapping(s string) string {
 	if len(s) != 0 {
-		mux.RLock()
-		mapping, ok := currencyMapping[s]
-		mux.RUnlock()
-		if ok {
-			return mapping
+		if currencyMappingFunc != nil {
+			return currencyMappingFunc(s)
+		} else if currencyMapping != nil {
+			mux.RLock()
+			mapping, ok := currencyMapping[s]
+			mux.RUnlock()
+			if ok {
+				return mapping
+			}
 		}
 	}
 	return s
@@ -37,11 +52,15 @@ func CurrencyMapping(s string) string {
 
 func CurrencyUnMapping(mapping string) string {
 	if len(mapping) != 0 {
-		mux.RLock()
-		s, ok := currencyUnMapping[mapping]
-		mux.RUnlock()
-		if ok {
-			return s
+		if currencyMappingFunc != nil {
+			return currencyMappingFunc(mapping)
+		} else if currencyMapping != nil {
+			mux.RLock()
+			s, ok := currencyUnMapping[mapping]
+			mux.RUnlock()
+			if ok {
+				return s
+			}
 		}
 	}
 	return mapping
