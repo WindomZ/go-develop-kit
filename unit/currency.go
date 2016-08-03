@@ -122,3 +122,7 @@ func (c *Currency) SetString(s string) *Currency {
 func (c *Currency) Equal(s *Currency) bool {
 	return c.String() == s.String()
 }
+
+func (c *Currency) EqualString(s string) bool {
+	return c.String() == s
+}
