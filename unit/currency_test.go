@@ -15,6 +15,11 @@ func TestSetCurrencyMappingFunc(t *testing.T) {
 		switch s {
 		case "AAA":
 			return "bbb"
+		}
+		return s
+	})
+	SetCurrencyUnMappingFunc(func(s string) string {
+		switch s {
 		case "bbb":
 			return "AAA"
 		}
@@ -22,10 +27,9 @@ func TestSetCurrencyMappingFunc(t *testing.T) {
 	})
 	if CurrencyMapping("AAA") != "bbb" {
 		t.Fatal("Error SetCurrencyMappingFunc")
-	} else if CurrencyMapping("bbb") != "AAA" {
-		t.Fatal("Error SetCurrencyMappingFunc")
+	} else if CurrencyUnMapping("bbb") != "AAA" {
+		t.Fatal("Error SetCurrencyUnMappingFunc")
 	}
-	SetCurrencyMappingFunc(nil)
 }
 
 func TestCurrencyMapping(t *testing.T) {
