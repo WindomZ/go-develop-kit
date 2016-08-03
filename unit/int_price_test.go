@@ -79,6 +79,13 @@ func TestIntPrice_ReciprocalFloat64(t *testing.T) {
 	}
 }
 
+func TestIntPrice_Round(t *testing.T) {
+	p := NewIntPriceFloat(1.0125)
+	if p.Round(3); p.Float64() != 1.013 {
+		t.Fatal("Error:", p.Float64())
+	}
+}
+
 func TestIntPrice_GetMul(t *testing.T) {
 	p1 := NewIntPrice(101234)
 	p2 := NewIntPriceFloat(2.012345)

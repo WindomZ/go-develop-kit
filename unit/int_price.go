@@ -126,6 +126,10 @@ func (p *IntPrice) SetFloat64(f float64, places ...int) *IntPrice {
 	return p.SetInt64(FloatFixedToInt(f, IntPricePrecision))
 }
 
+func (p *IntPrice) Round(places int) *IntPrice {
+	return p.SetFloat64(p.Float64(), places)
+}
+
 func (p IntPrice) String() string {
 	return strconv.FormatInt(int64(p), 10)
 }

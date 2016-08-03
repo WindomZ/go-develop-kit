@@ -128,6 +128,10 @@ func (p *FloatPrice) SetFloat64(f float64, places ...int) *FloatPrice {
 	return p
 }
 
+func (p *FloatPrice) Round(places int) *FloatPrice {
+	return p.SetFloat64(p.Float64(), places)
+}
+
 func (p FloatPrice) String() string {
 	return p.StringFloat()
 }
