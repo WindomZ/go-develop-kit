@@ -256,6 +256,38 @@ func (p FloatPrice) GetDiff(x ...FloatPrice) FloatPrice {
 		FloatPricePrecision, xs...))
 }
 
+// rounded product p*q... and returns
+func (p FloatPrice) GetMul(x ...FloatPrice) FloatPrice {
+	if x == nil || len(x) == 0 {
+		return p
+	} else if len(x) == 1 {
+		return FloatPrice(FloatMulRound(p.Float64(),
+			x[0].Float64(), FloatPricePrecision))
+	}
+	xs := make([]float64, 0, len(x))
+	for _, y := range x {
+		xs = append(xs, y.Float64())
+	}
+	return FloatPrice(FloatMulRound(p.Float64(), 1,
+		FloatPricePrecision, xs...))
+}
+
+// rounded quotient p/q... and returns
+func (p FloatPrice) GetDiv(x ...FloatPrice) FloatPrice {
+	if x == nil || len(x) == 0 {
+		return p
+	} else if len(x) == 1 {
+		return FloatPrice(FloatDivRound(p.Float64(),
+			x[0].Float64(), FloatPricePrecision))
+	}
+	xs := make([]float64, 0, len(x))
+	for _, y := range x {
+		xs = append(xs, y.Float64())
+	}
+	return FloatPrice(FloatDivRound(p.Float64(), 1,
+		FloatPricePrecision, xs...))
+}
+
 // returns negation
 func (p FloatPrice) GetNegation() FloatPrice {
 	return NewFloatPrice(-p.Float64())
