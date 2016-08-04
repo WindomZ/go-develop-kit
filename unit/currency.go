@@ -152,7 +152,7 @@ func (c *Currency) Scan(src interface{}) error {
 	return nil
 }
 
-func (c *Currency) Equal(s *Currency) bool {
+func (c *Currency) Equal(s Currency) bool {
 	return c.String() == s.String()
 }
 
