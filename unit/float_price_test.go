@@ -122,7 +122,7 @@ func TestFloatPrice_GetDiff(t *testing.T) {
 	p1 := NewFloatPrice(1.012345)
 	p2 := NewFloatPrice(2.012345)
 	p3 := NewFloatPrice(3.012345)
-	if p := p1.GetDiff(p2, p3); p.Float64() != 6.13677 {
+	if p := p1.GetDiff(p2, p3); p.Float64() != -4.01235 {
 		t.Fatal("Error:", p.Float64())
 	}
 }
@@ -131,7 +131,7 @@ func TestFloatPrice_GetMul(t *testing.T) {
 	p1 := NewFloatPrice(1.012345)
 	p2 := NewFloatPrice(2.012345)
 	p3 := NewFloatPrice(3.012345)
-	if p := p1.GetMul(p2, p3); p.Float64() != 0.167 {
+	if p := p1.GetMul(p2, p3); p.Float64() != 6.13677 {
 		t.Fatal("Error:", p.Float64())
 	}
 }
@@ -140,7 +140,7 @@ func TestFloatPrice_GetDiv(t *testing.T) {
 	p1 := NewFloatPrice(1.012345)
 	p2 := NewFloatPrice(2.012345)
 	p3 := NewFloatPrice(3.012345)
-	if p := p1.GetDiv(p2, p3); p.Float64() != -4.01235 {
+	if p := p1.GetDiv(p2, p3); p.Float64() != 0.167 {
 		t.Fatal("Error:", p.Float64())
 	}
 }
