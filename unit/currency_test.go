@@ -6,8 +6,10 @@ import (
 )
 
 func TestNewCurrency(t *testing.T) {
-	SetCurrencyMapping("$", "USD")
-	SetCurrencyMapping("RMB", "CNY")
+	SetCurrencyMappingPair("$", "USD")
+	SetCurrencyMappingPair("RMB", "CNY")
+	SetCurrencyMapping("rmb", "CNY")
+	SetCurrencyUnMapping("FRC", "frc")
 }
 
 func TestSetCurrencyMappingFunc(t *testing.T) {
@@ -49,10 +51,11 @@ func TestCurrencyUnMapping(t *testing.T) {
 }
 
 type testCurrency struct {
-	C1 Currency `json:"currency1"`
-	C2 Currency `json:"currency2"`
-	C3 Currency `json:"currency3"`
-	C4 Currency `json:"currency4"`
+	C1 Currency `json:"c1"`
+	C2 Currency `json:"c2"`
+	C3 Currency `json:"c3"`
+	C4 Currency `json:"c4"`
+	C5 Currency `json:"c5"`
 }
 
 func TestCurrencyJSON(t *testing.T) {
@@ -61,6 +64,7 @@ func TestCurrencyJSON(t *testing.T) {
 		C2: NewCurrency("RMB"),
 		C3: NewCurrency("$"),
 		C4: NewCurrency("USD"),
+		C5: NewCurrency("FRC"),
 	}
 	data, err := gojson.Marshal(c)
 	if err != nil {
@@ -70,7 +74,7 @@ func TestCurrencyJSON(t *testing.T) {
 	if err := gojson.Unmarshal(data, &c); err != nil {
 		t.Fatal(err)
 	}
-	if c.C1.String() != "rmb" {
+	if c.C1.String() != "CNY" {
 		t.Fatal("Error C1:", c.C1.String())
 	} else if c.C2.String() != "CNY" {
 		t.Fatal("Error C2:", c.C2.String())
@@ -78,6 +82,8 @@ func TestCurrencyJSON(t *testing.T) {
 		t.Fatal("Error C3:", c.C3.String())
 	} else if c.C4.String() != "USD" {
 		t.Fatal("Error C4:", c.C4.String())
+	} else if c.C5.String() != "frc" {
+		t.Fatal("Error C5:", c.C5.String())
 	}
 	var m map[string]string
 	if err := gojson.Unmarshal(data, &m); err != nil {
@@ -88,6 +94,7 @@ func TestCurrencyJSON(t *testing.T) {
 		case "rmb":
 		case "RMB":
 		case "$":
+		case "frc":
 		default:
 			t.Fatal("Error Map:", v)
 		}

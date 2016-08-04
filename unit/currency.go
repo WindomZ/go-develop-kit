@@ -16,7 +16,7 @@ var (
 	currencyUnMappingFunc func(string) string
 )
 
-func SetCurrencyMapping(s, mapping string) {
+func SetCurrencyMappingPair(s, mapping string) {
 	if len(s) != 0 && len(mapping) != 0 && s != mapping {
 		mux.Lock()
 		if currencyMapping == nil {
@@ -27,6 +27,28 @@ func SetCurrencyMapping(s, mapping string) {
 			currencyUnMapping = make(map[string]string)
 		}
 		currencyUnMapping[mapping] = s
+		mux.Unlock()
+	}
+}
+
+func SetCurrencyMapping(s, mapping string) {
+	if len(s) != 0 && len(mapping) != 0 && s != mapping {
+		mux.Lock()
+		if currencyMapping == nil {
+			currencyMapping = make(map[string]string)
+		}
+		currencyMapping[s] = mapping
+		mux.Unlock()
+	}
+}
+
+func SetCurrencyUnMapping(s, mapping string) {
+	if len(s) != 0 && len(mapping) != 0 && s != mapping {
+		mux.Lock()
+		if currencyUnMapping == nil {
+			currencyUnMapping = make(map[string]string)
+		}
+		currencyUnMapping[s] = mapping
 		mux.Unlock()
 	}
 }
