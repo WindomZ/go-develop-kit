@@ -51,25 +51,36 @@ func TestCurrencyUnMapping(t *testing.T) {
 }
 
 type testCurrency struct {
-	C1 Currency `json:"c1"`
-	C2 Currency `json:"c2"`
-	C3 Currency `json:"c3"`
-	C4 Currency `json:"c4"`
-	C5 Currency `json:"c5"`
+	C1   Currency              `json:"c1"`
+	C2   Currency              `json:"c2"`
+	C3   Currency              `json:"c3"`
+	C4   Currency              `json:"c4"`
+	C5   Currency              `json:"c5"`
+	CMAP map[Currency]Currency `json:"cmap"`
+	CARR []Currency            `json:"carr"`
 }
 
 func TestCurrencyJSON(t *testing.T) {
 	c := &testCurrency{
-		C1: NewCurrency("rmb"),
-		C2: NewCurrency("RMB"),
-		C3: NewCurrency("$"),
-		C4: NewCurrency("USD"),
-		C5: NewCurrency("FRC"),
+		C1:   NewCurrency("rmb"),
+		C2:   NewCurrency("RMB"),
+		C3:   NewCurrency("$"),
+		C4:   NewCurrency("USD"),
+		C5:   NewCurrency("FRC"),
+		CMAP: make(map[Currency]Currency),
+		CARR: make([]Currency, 3),
 	}
+	c.CMAP[c.C1] = c.C1
+	c.CMAP[c.C3] = c.C3
+	c.CMAP[c.C5] = c.C5
+	c.CARR[0] = c.C1
+	c.CARR[1] = c.C2
+	c.CARR[2] = c.C3
 	data, err := gojson.Marshal(c)
 	if err != nil {
 		t.Fatal(err)
 	}
+	//t.Log(string(data))
 	c = new(testCurrency)
 	if err := gojson.Unmarshal(data, &c); err != nil {
 		t.Fatal(err)
@@ -85,18 +96,26 @@ func TestCurrencyJSON(t *testing.T) {
 	} else if c.C5.String() != "frc" {
 		t.Fatal("Error C5:", c.C5.String())
 	}
-	var m map[string]string
+	for k, v := range c.CMAP {
+		if !k.Equal(v) {
+			t.Fatal("Error CMAP:", k, v)
+		}
+	}
+	var m map[string]interface{}
 	if err := gojson.Unmarshal(data, &m); err != nil {
 		t.Fatal(err)
 	}
-	for _, v := range m {
+	for k, v := range m {
+		if k == "cmap" || k == "carr" {
+			continue
+		}
 		switch v {
 		case "rmb":
 		case "RMB":
 		case "$":
 		case "frc":
 		default:
-			t.Fatal("Error Map:", v)
+			t.Fatal("Error:", v)
 		}
 	}
 }
