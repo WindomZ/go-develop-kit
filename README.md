@@ -1,5 +1,5 @@
 # go-develop-kit
-Some develop kits for golang
+My develop kits for golang
 
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
@@ -24,7 +24,9 @@ Some develop kits for golang
 ## Security
 * salt
     * [hmac](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/hmac.go)
+        * hmac-md5
     * [md5](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/md5.go)
+        * md5-prefix
 
 ## Unit
 * [currency](https://github.com/WindomZ/go-develop-kit/blob/master/unit/currency.go)
