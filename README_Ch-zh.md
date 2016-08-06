@@ -1,5 +1,5 @@
 # go-develop-kit
-Some develop kits for golang
+一些Golang项目常用的开发组件
 
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
@@ -14,12 +14,12 @@ Some develop kits for golang
 
 ## Math
 * [float64](https://github.com/WindomZ/go-develop-kit/blob/master/math/float.go)
-    * Add, subtract, multiply, divide and round
-    * Calculation of big number, eliminate the error precision
+    * 加减乘除,四舍五入
+    * 消除浮点计算精度误差
 
 ## Mutex
 * [mutex](https://github.com/WindomZ/go-develop-kit/blob/master/mutex/mutex.go)
-    * Still in development :)
+    * 仍在开发完善 :)
 
 ## Security
 * salt
@@ -28,8 +28,8 @@ Some develop kits for golang
 
 ## Unit
 * [currency](https://github.com/WindomZ/go-develop-kit/blob/master/unit/currency.go)
-    * Unit currency, the multiple formats mapping
+    * 货币单位, 多格式映射
 * [float price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/float_price.go)
-    * Unit price, floating point calculation
+    * 价格单位, 浮点计算
 * [int price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/int_price.go)
-    * Unit price, integral calculation
+    * 价格单位, 整数计算
