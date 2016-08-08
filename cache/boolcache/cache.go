@@ -82,8 +82,8 @@ func (c *cache) SwapBool(k string, ds ...time.Duration) bool {
 			Bool:       true,
 			Expiration: e,
 		}
-		c.items[k] = item
 	}
+	c.items[k] = item
 	c.mux.RUnlock()
 	return item.Bool
 }
@@ -98,6 +98,7 @@ func (c *cache) UpdateBool(k string, d time.Duration) bool {
 	if ok {
 		item.Expiration = time.Now().Add(d).UnixNano()
 	}
+	c.items[k] = item
 	c.mux.RUnlock()
 	return ok
 }
@@ -123,7 +124,7 @@ func (c *cache) Delete(k string) (bool, bool) {
 func (c *cache) delete(k string) (bool, bool) {
 	if v, found := c.items[k]; found {
 		delete(c.items, k)
-		return v, true
+		return v.Bool, true
 	}
 	return false, false
 }
@@ -147,8 +148,9 @@ func (j *janitor) Run(c *cache) {
 	}
 }
 
-func stopJanitor(c *cache) {
+func stopJanitor(c *Cache) {
 	c.janitor.stop <- true
+	c.janitor = nil
 }
 
 func runJanitor(c *cache, ci time.Duration) {
