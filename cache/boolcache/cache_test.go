@@ -31,32 +31,32 @@ func TestCache_GetBool(t *testing.T) {
 }
 
 func TestCache_SwapBool(t *testing.T) {
-	if b := c.SwapBool(_KEY1); b {
+	if ok := c.SwapBool(_KEY1, false); !ok {
 		t.Fatal("Error SwapBool")
 	}
-	if b := c.SwapBool(_KEY2); b {
+	if ok := c.SwapBool(_KEY2, false); !ok {
 		t.Fatal("Error SwapBool")
 	}
 	if b, ok := c.GetBool(_KEY1); b || !ok {
-		t.Fatal("Error SwapBool")
+		t.Fatal("Error SwapBool", b, ok)
 	}
 	if b, ok := c.GetBool(_KEY2); b || !ok {
-		t.Fatal("Error SwapBool")
+		t.Fatal("Error SwapBool", b, ok)
 	}
 }
 
 func TestCache_UpdateBool(t *testing.T) {
-	if ok := c.UpdateBool(_KEY1, time.Second); !ok {
-		t.Fatal("Error UpdateBool")
+	if ok := c.Update(_KEY1, time.Second); !ok {
+		t.Fatal("Error Update")
 	}
-	if ok := c.UpdateBool(_KEY2, time.Second); !ok {
-		t.Fatal("Error UpdateBool")
+	if ok := c.Update(_KEY2, time.Second); !ok {
+		t.Fatal("Error Update")
 	}
 	time.Sleep(time.Second)
 	if _, ok := c.GetBool(_KEY1); ok {
-		t.Fatal("Error UpdateBool")
+		t.Fatal("Error Update")
 	}
 	if _, ok := c.GetBool(_KEY2); ok {
-		t.Fatal("Error UpdateBool")
+		t.Fatal("Error Update")
 	}
 }

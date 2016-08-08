@@ -34,6 +34,10 @@ type cache struct {
 	janitor           *janitor
 }
 
+func (c *cache) DefaultExpiration() time.Duration {
+	return c.defaultExpiration
+}
+
 func (c *cache) SetBool(k string, v bool, ds ...time.Duration) {
 	var e int64
 	d := c.defaultExpiration
@@ -61,7 +65,7 @@ func (c *cache) GetBool(k string) (bool, bool) {
 	return false, false
 }
 
-func (c *cache) SwapBool(k string, ds ...time.Duration) bool {
+func (c *cache) SwapBool(k string, v bool, ds ...time.Duration) bool {
 	var e int64
 	d := c.defaultExpiration
 	if ds != nil && len(ds) != 0 {
@@ -70,25 +74,26 @@ func (c *cache) SwapBool(k string, ds ...time.Duration) bool {
 	if d > 0 {
 		e = time.Now().Add(d).UnixNano()
 	}
+	var r bool = false
 	c.mux.RLock()
 	item, ok := c.items[k]
-	if ok {
-		item.Bool = !item.Bool
-		if e > 0 {
-			item.Expiration = e
-		}
-	} else {
+	if !ok {
 		item = Item{
-			Bool:       true,
+			Bool:       v,
 			Expiration: e,
 		}
+		r = true
+	} else if item.Bool != v && e > 0 {
+		item.Bool = v
+		item.Expiration = e
+		r = true
 	}
 	c.items[k] = item
 	c.mux.RUnlock()
-	return item.Bool
+	return r
 }
 
-func (c *cache) UpdateBool(k string, d time.Duration) bool {
+func (c *cache) Update(k string, d time.Duration) bool {
 	if d <= 0 {
 		c.Delete(k)
 		return false
@@ -179,4 +184,12 @@ func NewCache(defaultExpiration, cleanupInterval time.Duration) *Cache {
 		runtime.SetFinalizer(C, stopJanitor)
 	}
 	return C
+}
+
+func NewCacheSameExpiration(expiration time.Duration) *Cache {
+	return NewCache(expiration, expiration)
+}
+
+func NewCacheNoExpiration() *Cache {
+	return NewCache(NoExpiration, NoExpiration)
 }
