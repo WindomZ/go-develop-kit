@@ -229,7 +229,7 @@ func (p IntPrice) GetDiff(x ...IntPrice) IntPrice {
 }
 
 // rounded product p*+x... and returns p
-func (p *IntPrice) GetMul(x ...IntPrice) IntPrice {
+func (p IntPrice) GetMul(x ...IntPrice) IntPrice {
 	mul := p.Int64()
 	for _, y := range x {
 		mul *= y.Int64()
@@ -239,7 +239,7 @@ func (p *IntPrice) GetMul(x ...IntPrice) IntPrice {
 }
 
 // rounded quotient p/+x... and returns p
-func (p *IntPrice) GetQuo(x ...IntPrice) IntPrice {
+func (p IntPrice) GetQuo(x ...IntPrice) IntPrice {
 	quo := p.Int64()
 	for _, y := range x {
 		quo /= y.Int64()
