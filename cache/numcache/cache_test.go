@@ -8,7 +8,7 @@ import (
 var c *Cache
 
 func TestNewCache(t *testing.T) {
-	c = NewCache(time.Minute)
+	c = NewCache(time.Minute, time.Second)
 }
 
 func TestCache_Int64(t *testing.T) {
@@ -30,6 +30,32 @@ func TestCache_Float64(t *testing.T) {
 		t.Fatal("Error key")
 	} else if v != VALUE {
 		t.Fatal("Error value")
+	}
+}
+
+func TestCache_Delete(t *testing.T) {
+	TestCache_Int64(t)
+	const KEY string = "TestInt"
+	if _, ok := c.GetInt64(KEY); !ok {
+		t.Fatal("Error Delete")
+	}
+	c.Delete(KEY)
+	time.Sleep(time.Second)
+	if _, ok := c.GetInt64(KEY); ok {
+		t.Fatal("Error Delete")
+	}
+}
+
+func TestCache_Update(t *testing.T) {
+	TestCache_Int64(t)
+	const KEY string = "TestInt"
+	if _, ok := c.GetInt64(KEY); !ok {
+		t.Fatal("Error Update")
+	}
+	c.Update(KEY, time.Second)
+	time.Sleep(time.Second)
+	if _, ok := c.GetInt64(KEY); ok {
+		t.Fatal("Error Update")
 	}
 }
 
