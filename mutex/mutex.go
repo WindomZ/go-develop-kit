@@ -7,7 +7,8 @@ import (
 
 type Mutex struct {
 	sync.Mutex
-	count int32
+	before int32
+	after  int32
 }
 
 func NewMutex() *Mutex {
@@ -17,28 +18,15 @@ func NewMutex() *Mutex {
 // Lock locks m.
 // If the lock is already in use, the calling goroutine
 // blocks until the mutex is available.
-func (m *Mutex) Lock() {
-	m.MustLock()
-}
-
-// Same as Lock()
-func (m *Mutex) MustLock() {
+func (m *Mutex) lock() {
+	atomic.StoreInt32(&m.before, 1)
 	m.Mutex.Lock()
-	atomic.StoreInt32(&m.count, 1)
+	atomic.StoreInt32(&m.after, 1)
 }
 
-func (m *Mutex) SafeLock() {
-	if atomic.SwapInt32(&m.count, 1) <= 0 {
-		m.Mutex.Lock()
-	}
-}
-
-func (m *Mutex) UnsafeLock() {
-	if atomic.CompareAndSwapInt32(&m.count, 0, 1) {
-		m.Mutex.Lock()
-	} else if atomic.LoadInt32(&m.count) >= 1 {
-		atomic.AddInt32(&m.count, 1)
-	}
+// Same as lock()
+func (m *Mutex) Lock() {
+	m.lock()
 }
 
 // Unlock unlocks m.
@@ -47,26 +35,18 @@ func (m *Mutex) UnsafeLock() {
 // A locked Mutex is not associated with a particular goroutine.
 // It is allowed for one goroutine to lock a Mutex and then
 // arrange for another goroutine to unlock it.
-func (m *Mutex) Unlock() {
-	m.MustUnlock()
-}
-
-// Same as Unlock()
-func (m *Mutex) MustUnlock() {
+func (m *Mutex) unlock() {
+	atomic.StoreInt32(&m.after, 0)
 	m.Mutex.Unlock()
-	atomic.StoreInt32(&m.count, 0)
+	atomic.StoreInt32(&m.before, 0)
 }
 
-func (m *Mutex) SafeUnlock() {
-	if atomic.SwapInt32(&m.count, 0) >= 1 {
-		m.Mutex.Unlock()
-	}
+// Same as unlock()
+func (m *Mutex) Unlock() {
+	m.unlock()
 }
 
-func (m *Mutex) UnsafeUnlock() {
-	if atomic.CompareAndSwapInt32(&m.count, 1, 0) {
-		m.Mutex.Unlock()
-	} else if atomic.LoadInt32(&m.count) > 1 {
-		atomic.AddInt32(&m.count, -1)
-	}
+func (m *Mutex) IsLocked() bool {
+	return atomic.LoadInt32(&m.before) == 1 &&
+		atomic.LoadInt32(&m.after) == 1
 }
