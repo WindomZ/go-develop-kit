@@ -1,49 +1,56 @@
 package jsonutil
 
-import "github.com/buger/jsonparser"
+import (
+	"github.com/buger/jsonparser"
+	"strconv"
+)
 
-func JSONGetString(data []byte, keys ...string) (string, error) {
+func GetString(data []byte, keys ...string) (string, error) {
 	return jsonparser.GetString(data, keys...)
 }
 
-func JSONMustGetString(data []byte, keys ...string) string {
-	s, err := JSONGetString(data, keys...)
+func MustGetString(data []byte, keys ...string) string {
+	s, err := GetString(data, keys...)
 	if err != nil {
 		return ""
 	}
 	return s
 }
 
-func JSONGetFloat(data []byte, keys ...string) (float64, error) {
+func GetFloat(data []byte, keys ...string) (float64, error) {
 	return jsonparser.GetFloat(data, keys...)
 }
 
-func JSONMustGetFloat(data []byte, keys ...string) float64 {
-	f, err := JSONGetFloat(data, keys...)
+func MustGetFloat(data []byte, keys ...string) float64 {
+	f, err := GetFloat(data, keys...)
 	if err != nil {
 		return 0.0
 	}
 	return f
 }
 
-func JSONGetInt(data []byte, keys ...string) (int64, error) {
+func GetInt(data []byte, keys ...string) (int64, error) {
 	return jsonparser.GetInt(data, keys...)
 }
 
-func JSONMustGetInt(data []byte, keys ...string) int64 {
-	i, err := JSONGetInt(data, keys...)
+func MustGetInt(data []byte, keys ...string) int64 {
+	i, err := GetInt(data, keys...)
 	if err != nil {
-		return 0
+		if s := MustGetString(data, keys...); len(s) == 0 {
+			return 0
+		} else if i, err = strconv.ParseInt(s, 10, 64); err != nil {
+			return 0
+		}
 	}
 	return i
 }
 
-func JSONGetBoolean(data []byte, keys ...string) (bool, error) {
+func GetBoolean(data []byte, keys ...string) (bool, error) {
 	return jsonparser.GetBoolean(data, keys...)
 }
 
-func JSONMustGetBoolean(data []byte, keys ...string) bool {
-	b, err := JSONGetBoolean(data, keys...)
+func MustGetBoolean(data []byte, keys ...string) bool {
+	b, err := GetBoolean(data, keys...)
 	if err != nil {
 		return false
 	}
