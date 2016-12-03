@@ -22,6 +22,11 @@ func SetFloatPricePrecision(e int) {
 
 type FloatPrice float64
 
+const (
+	MaxFloatPrice FloatPrice = FloatPrice(math.MaxFloat64)
+	MinFloatPrice FloatPrice = FloatPrice(math.SmallestNonzeroFloat64)
+)
+
 func NewFloatPrice(f float64, places ...int) FloatPrice {
 	if f == 0 {
 		return FloatPrice(0)
@@ -86,9 +91,9 @@ func (p *FloatPrice) Scan(src interface{}) error {
 	}
 	switch o := src.(type) {
 	case float32, float64:
-		p.SetFloat64(o.(float64))
+		p.SetFloat64(src.(float64))
 	case int, int8, int16, int32, int64:
-		p.SetInt64(o.(int64))
+		p.SetInt64(src.(int64))
 	case string:
 		f, err := strconv.ParseFloat(o, 64)
 		if err != nil {

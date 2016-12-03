@@ -22,6 +22,11 @@ func SetIntPricePrecision(e int) {
 
 type IntPrice int64
 
+const (
+	MaxIntPrice IntPrice = IntPrice(math.MaxInt64)
+	MinIntPrice IntPrice = IntPrice(math.MinInt64)
+)
+
 func NewIntPrice(value int64) IntPrice {
 	return IntPrice(value)
 }
@@ -80,9 +85,9 @@ func (p *IntPrice) Scan(src interface{}) error {
 	}
 	switch o := src.(type) {
 	case float32, float64:
-		p.SetFloat64(o.(float64))
+		p.SetFloat64(src.(float64))
 	case int, int8, int16, int32, int64:
-		p.SetInt64(o.(int64))
+		p.SetInt64(src.(int64))
 	case string:
 		i, err := strconv.ParseInt(o, 10, 64)
 		if err != nil {
