@@ -4,6 +4,7 @@ import (
 	_ "github.com/WindomZ/go-develop-kit/cache"
 	_ "github.com/WindomZ/go-develop-kit/cache/boolcache"
 	_ "github.com/WindomZ/go-develop-kit/cache/numcache"
+	_ "github.com/WindomZ/go-develop-kit/config/toml"
 	_ "github.com/WindomZ/go-develop-kit/googleauth/otp"
 	_ "github.com/WindomZ/go-develop-kit/http"
 	_ "github.com/WindomZ/go-develop-kit/jsonutil"

@@ -1,0 +1,13 @@
+debug = true # debug mode
+test = false # test mode
+
+[log]
+debug = true
+file = "file.log"
+
+[http]
+port = 80 # http port
+
+[https]
+enable = true
+port = 443 # https port
