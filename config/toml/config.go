@@ -3,7 +3,7 @@ package toml
 import "github.com/BurntSushi/toml"
 
 type Config struct {
-	metaData toml.MetaData `json:"-",toml:"-"`
+	metaData toml.MetaData `json:"-" toml:"-"`
 }
 
 func (c *Config) DecodeFile(fpath string, v interface{}) (err error) {
