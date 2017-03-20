@@ -3,6 +3,8 @@
 
 My develop kits for Golang
 
+[中文文档](https://github.com/WindomZ/go-develop-kit/blob/master/README_Ch-zh.md#readme)
+
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
     * [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)
@@ -37,3 +39,11 @@ My develop kits for Golang
     * Unit price, floating point calculation
 * [int price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/int_price.go)
     * Unit price, integral calculation
+
+## UUID
+* [uuid](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/uuid.go)
+    * Common UUID safe generation method
+* [validator](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/validator.go)
+    * Commonly used UUID validator
+* [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
+    * Commonly used UUID conversion tool

@@ -35,3 +35,11 @@
     * 价格单位, 浮点计算
 * [int price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/int_price.go)
     * 价格单位, 整数计算
+
+## UUID
+* [uuid](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/uuid.go)
+    * 常用的UUID安全生成方法
+* [validator](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/validator.go)
+    * 常用的UUID验证器
+* [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
+    * 常用的UUID转换工具
