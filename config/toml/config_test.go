@@ -1,8 +1,9 @@
 package toml
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/WindomZ/testify/assert"
 )
 
 var c TestConfig

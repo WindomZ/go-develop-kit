@@ -1,0 +1,24 @@
+language: go
+
+sudo: false
+
+go:
+  - 1.6.x
+  - 1.7.x
+  - 1.8.x
+  - master
+
+before_install:
+  - go get github.com/WindomZ/go-struct-filler
+  - go get github.com/WindomZ/testify/assert
+  - go get github.com/WindomZ/go-macro/json
+  - go get github.com/patrickmn/go-cache
+  - go get github.com/shopspring/decimal
+  - go get github.com/coocood/freecache
+  - go get github.com/buger/jsonparser
+  - go get github.com/BurntSushi/toml
+  - go get github.com/satori/go.uuid
+  - go get github.com/tsenart/tb
+
+script:
+  - go test -v ./...
