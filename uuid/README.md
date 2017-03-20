@@ -1,2 +1,3 @@
 # uuid
-* Still in development :)
+
+Library based on [satori/go.uuid](https://github.com/satori/go.uuid) package

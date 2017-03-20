@@ -1,8 +1,9 @@
 package uuid
 
 import (
-	"github.com/satori/go.uuid"
 	"sync"
+
+	"github.com/satori/go.uuid"
 )
 
 var (
@@ -10,28 +11,21 @@ var (
 	mux *sync.Mutex = new(sync.Mutex)
 )
 
-var EMPTY, _ = uuid.FromString("00000000-0000-0000-0000-000000000000")
-
-func IsEmpty(id string) bool {
-	u, err := uuid.FromString(id)
-	if err != nil {
-		return false
-	}
-	return uuid.Equal(EMPTY, u)
-}
-
+// NewUUID returns random generated UUID.
 func NewUUID() string {
 	return uuid.NewV4().String()
 }
 
+// NewUUIDWithName returns UUID based on SHA-1 hash of namespace UUID and name.
 func NewUUIDWithName(name string) string {
 	return uuid.NewV5(uuid.NewV4(), name).String()
 }
 
-func NewSafeUUID() string {
+// NewSafeUUID returns random generated UUID safely.
+func NewSafeUUID() (r string) {
 	mux.Lock()
 	idx++
-	r := uuid.NewV5(uuid.NewV4(), string(idx)).String()
+	r = uuid.NewV5(uuid.NewV4(), string(idx)).String()
 	mux.Unlock()
-	return r
+	return
 }
