@@ -1,5 +1,7 @@
 # go-develop-kit
-一些Golang项目常用的开发组件
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+一些Go项目常用的开发组件
 
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)

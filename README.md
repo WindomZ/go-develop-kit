@@ -1,5 +1,7 @@
 # go-develop-kit
-My develop kits for golang
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+My develop kits for Golang
 
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
