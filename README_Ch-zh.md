@@ -1,4 +1,5 @@
 # go-develop-kit
+[![Build Status](https://travis-ci.org/WindomZ/go-develop-kit.svg?branch=master)](https://travis-ci.org/WindomZ/go-develop-kit)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 一些Go项目常用的开发组件
