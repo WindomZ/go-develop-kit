@@ -12,20 +12,24 @@ var EMPTY, _ = uuid.FromString("00000000-0000-0000-0000-000000000000")
 func IsEmpty(id string) bool {
 	u, err := uuid.FromString(id)
 	if err != nil {
-		return false
+		return id == "00000000000000000000000000000000"
 	}
 	return uuid.Equal(EMPTY, u)
 }
 
-// Valid returns true if valid UUID and not equal empty.
+// Valid returns true if valid UUID.
 func Valid(id string) (result bool) {
-	if IsEmpty(id) {
-	} else if len(id) == 36 {
+	if len(id) == 36 {
 		result, _ = regexp.MatchString(`\w{8}(-\w{4}){3}-\w{12}`, id)
 	} else if len(id) == 32 {
 		result = ValidNoDash(id)
 	}
 	return
+}
+
+// ValidNoEmpty returns true if valid UUID and not equal empty.
+func ValidNoEmpty(id string) bool {
+	return !IsEmpty(id) && Valid(id)
 }
 
 // ValidNoDash returns true if valid UUID that no dash and not equal empty.
