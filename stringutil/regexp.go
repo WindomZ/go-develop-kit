@@ -5,9 +5,12 @@ import (
 	"strings"
 )
 
-func RegexpSubstring(expr, s, exp_head, exp_end string) (r []string) {
+func regexpSubstrings(expr, s, exp_head, exp_end string, n int) (r []string) {
 	strs := regexp.MustCompile(expr).FindAllString(s, -1)
-	for _, str := range strs {
+	for i, str := range strs {
+		if n > 0 && i >= n {
+			break
+		}
 		var start, end int = 0, 0
 		if len(exp_head) != 0 {
 			start = strings.Index(str, exp_head) + len(exp_head)
@@ -20,4 +23,15 @@ func RegexpSubstring(expr, s, exp_head, exp_end string) (r []string) {
 		}
 	}
 	return
+}
+
+func RegexpSubstrings(expr, s, exp_head, exp_end string) []string {
+	return regexpSubstrings(expr, s, exp_head, exp_end, -1)
+}
+
+func RegexpSubstring(expr, s, exp_head, exp_end string) string {
+	if strs := regexpSubstrings(expr, s, exp_head, exp_end, 1); len(strs) != 0 {
+		return strs[0]
+	}
+	return ""
 }
