@@ -33,6 +33,12 @@ My develop kits for Golang
     * [md5](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/md5.go)
         * md5-prefix
 
+## StringUtil
+* [string](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/string.go)
+    * Split the string
+* [regexp](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/regexp.go)
+    * Split the string with regular expression
+
 ## Unit
 * [currency](https://github.com/WindomZ/go-develop-kit/blob/master/unit/currency.go)
     * Unit currency, the multiple formats mapping
