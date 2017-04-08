@@ -6,6 +6,12 @@
 
 [英文文档](https://github.com/WindomZ/go-develop-kit/blob/master/README.md#readme)
 
+## Installation
+
+```bash
+go get github.com/WindomZ/go-develop-kit...
+```
+
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
     * [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)
