@@ -1,8 +1,10 @@
 # go-develop-kit
 [![Build Status](https://travis-ci.org/WindomZ/go-develop-kit.svg?branch=master)](https://travis-ci.org/WindomZ/go-develop-kit)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-一些Go项目常用的开发组件
+我的Go项目常用的开发组件
+
+[英文文档](https://github.com/WindomZ/go-develop-kit/blob/master/README.md#readme)
 
 ## Cache
 * [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
@@ -27,7 +29,15 @@
 ## Security
 * salt
     * [hmac](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/hmac.go)
+        * hmac-md5
     * [md5](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/md5.go)
+        * md5-prefix
+
+## StringUtil
+* [string](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/string.go)
+    * 截取字符串
+* [regexp](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/regexp.go)
+    * 通过正则表达式来截取字符串
 
 ## Unit
 * [currency](https://github.com/WindomZ/go-develop-kit/blob/master/unit/currency.go)
@@ -44,3 +54,7 @@
     * 常用的UUID验证器
 * [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
     * 常用的UUID转换工具
+
+## License
+
+The [MIT License](https://github.com/WindomZ/go-develop-kit/blob/master/LICENSE)
