@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/WindomZ/go-develop-kit.svg?branch=master)](https://travis-ci.org/WindomZ/go-develop-kit)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-我的Go项目常用的开发组件
+> 我的Go项目常用的开发组件
 
 [英文文档](https://github.com/WindomZ/go-develop-kit/blob/master/README.md#readme)
 
