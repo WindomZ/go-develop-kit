@@ -18,3 +18,11 @@
 
 - `path` the path of file or directory
 - `dir` the path is directory
+
+#### ExecPath() (path string)
+
+- `path` the file path of program
+
+#### ExecDir() (path string)
+
+- `path` the directory path of program

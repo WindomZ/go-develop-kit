@@ -2,7 +2,10 @@ package path
 
 import (
 	"os"
+	"os/exec"
 	"path"
+	"path/filepath"
+	"strings"
 )
 
 // IsExist returns a boolean indicating whether the path of file or directory already exists.
@@ -33,4 +36,21 @@ func Ensure(_path string, dir bool) error {
 		}
 	}
 	return nil
+}
+
+// ExecPath returns the path of the command-line program.
+func ExecPath() string {
+	if len(os.Args) != 0 {
+		return os.Args[0]
+	}
+	return ""
+}
+
+// ExecDir returns the directory path of the command-line program.
+func ExecDir() string {
+	file, _ := exec.LookPath(ExecPath())
+	filePath, _ := filepath.Abs(file)
+	index := strings.LastIndex(filePath, string(os.PathSeparator))
+	ret := filePath[:index]
+	return ret
 }
