@@ -38,8 +38,8 @@ go get github.com/WindomZ/go-develop-kit...
 ### Path
 [README](https://github.com/WindomZ/go-develop-kit/blob/master/path/README.md#readme)
 
-- 获取用户当前`HOME`目录路径
-- 文件操作功能集合
+- 获取用户当前**`HOME`目录**路径
+- **文件操作**功能集合
 
 ### Security
 - salt

@@ -38,8 +38,8 @@ go get github.com/WindomZ/go-develop-kit...
 ### Path
 [README](https://github.com/WindomZ/go-develop-kit/blob/master/path/README.md#readme)
 
-- Get the user's home directory
-- File operation function collection
+- Get the user's **`home` directory**
+- **File operation** function collection
 
 ### Security
 - salt
