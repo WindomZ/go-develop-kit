@@ -1,4 +1,5 @@
 # go-develop-kit
+
 [![Build Status](https://travis-ci.org/WindomZ/go-develop-kit.svg?branch=master)](https://travis-ci.org/WindomZ/go-develop-kit)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -6,61 +7,69 @@
 
 [英文文档](https://github.com/WindomZ/go-develop-kit/blob/master/README.md#readme)
 
-## Installation
+## 安装
 
 ```bash
 go get github.com/WindomZ/go-develop-kit...
 ```
 
-## Cache
-* [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
-    * [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)
-    * [gocache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/gocache)
-* [numcache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/numcache)
+## 使用
 
-## GoogleAuthenticator
-* [One-time Password](https://github.com/WindomZ/go-develop-kit/tree/master/googleauth/otp)
-    * HMAC-Based One-time Password (HOTP) algorithm specified in RFC 4226
-    * Time-based One-time Password (TOTP) algorithm specified in RFC 6238
+### Cache
+- [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
+    - [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)
+    - [gocache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/gocache)
+- [numcache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/numcache)
 
-## Math
-* [float64](https://github.com/WindomZ/go-develop-kit/blob/master/math/float.go)
-    * 加减乘除,四舍五入
-    * 消除浮点计算精度误差
+### GoogleAuthenticator
+- [One-time Password](https://github.com/WindomZ/go-develop-kit/tree/master/googleauth/otp)
+    - HMAC-Based One-time Password (HOTP) algorithm specified in RFC 4226
+    - Time-based One-time Password (TOTP) algorithm specified in RFC 6238
 
-## Mutex
-* [mutex](https://github.com/WindomZ/go-develop-kit/blob/master/mutex/mutex.go)
-    * 仍在开发完善 :)
+### Math
+- [float64](https://github.com/WindomZ/go-develop-kit/blob/master/math/float.go)
+    - 加减乘除,四舍五入
+    - 消除浮点计算精度误差
 
-## Security
-* salt
-    * [hmac](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/hmac.go)
-        * hmac-md5
-    * [md5](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/md5.go)
-        * md5-prefix
+### Mutex
+- [mutex](https://github.com/WindomZ/go-develop-kit/blob/master/mutex/mutex.go)
+    - 仍在开发完善 :)
 
-## StringUtil
-* [string](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/string.go)
-    * 截取字符串
-* [regexp](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/regexp.go)
-    * 通过正则表达式来截取字符串
+### Path
+[README](https://github.com/WindomZ/go-develop-kit/blob/master/path/README.md#readme)
 
-## Unit
-* [currency](https://github.com/WindomZ/go-develop-kit/blob/master/unit/currency.go)
-    * 货币单位, 多格式映射
-* [float price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/float_price.go)
-    * 价格单位, 浮点计算
-* [int price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/int_price.go)
-    * 价格单位, 整数计算
+- 获取用户当前`HOME`目录路径
+- 文件操作功能集合
 
-## UUID
-* [uuid](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/uuid.go)
-    * 常用的UUID安全生成方法
-* [validator](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/validator.go)
-    * 常用的UUID验证器
-* [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
-    * 常用的UUID转换工具
+### Security
+- salt
+    - [hmac](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/hmac.go)
+        - hmac-md5
+    - [md5](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/md5.go)
+        - md5-prefix
 
-## License
+### StringUtil
+- [string](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/string.go)
+    - 截取字符串
+- [regexp](https://github.com/WindomZ/go-develop-kit/blob/master/stringutil/regexp.go)
+    - 通过正则表达式来截取字符串
 
-The [MIT License](https://github.com/WindomZ/go-develop-kit/blob/master/LICENSE)
+### Unit
+- [currency](https://github.com/WindomZ/go-develop-kit/blob/master/unit/currency.go)
+    - 货币单位, 多格式映射
+- [float price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/float_price.go)
+    - 价格单位, 浮点计算
+- [int price](https://github.com/WindomZ/go-develop-kit/blob/master/unit/int_price.go)
+    - 价格单位, 整数计算
+
+### UUID
+- [uuid](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/uuid.go)
+    - 常用的UUID安全生成方法
+- [validator](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/validator.go)
+    - 常用的UUID验证器
+- [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
+    - 常用的UUID转换工具
+
+## 许可
+
+[MIT](https://github.com/WindomZ/go-develop-kit/blob/master/LICENSE)
