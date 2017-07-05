@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// IsExist returns a boolean indicating whether the path of file or directory already exists.
+// IsExist returns boolean indicating whether the path of file or directory already exists.
 // Returns an unknown error if not match some syscall errors.
 func IsExist(_path string) (ok bool, err error) {
 	_, err = os.Stat(_path)
@@ -16,6 +16,12 @@ func IsExist(_path string) (ok bool, err error) {
 		err = nil
 	}
 	return
+}
+
+// MustExist returns a boolean, it true if the path of file or directory already exists.
+func MustExist(_path string) bool {
+	ok, _ := IsExist(_path)
+	return ok
 }
 
 // Ensure returns an error if the path of file or directory(dir is true) isn't existed or catches other error.
@@ -27,12 +33,8 @@ func Ensure(_path string, dir bool) error {
 			}
 		} else if err := Ensure(path.Dir(_path), true); err != nil {
 			return err
-		} else {
-			f, err := os.Create(_path)
-			if err != nil {
-				return err
-			}
-			f.Close()
+		} else if err := CreateFile(_path); err != nil {
+			return err
 		}
 	}
 	return nil
