@@ -11,6 +11,7 @@ import (
 	_ "github.com/WindomZ/go-develop-kit/math"
 	_ "github.com/WindomZ/go-develop-kit/mutex"
 	_ "github.com/WindomZ/go-develop-kit/netutil"
+	_ "github.com/WindomZ/go-develop-kit/path"
 	_ "github.com/WindomZ/go-develop-kit/pinyin"
 	_ "github.com/WindomZ/go-develop-kit/routestat"
 	_ "github.com/WindomZ/go-develop-kit/security/encoding"
