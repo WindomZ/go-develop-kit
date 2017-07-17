@@ -36,7 +36,7 @@ go get github.com/WindomZ/go-develop-kit...
     - 仍在开发完善 :)
 
 ### Path
-[README](https://github.com/WindomZ/go-develop-kit/blob/master/path/README.md#readme)
+[README](https://github.com/WindomZ/go-develop-kit/blob/master/path#readme)
 
 - 获取用户当前**`HOME`目录**路径
 - **文件操作**功能集合
@@ -69,6 +69,13 @@ go get github.com/WindomZ/go-develop-kit...
     - 常用的UUID验证器
 - [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
     - 常用的UUID转换工具
+
+## 贡献
+
+欢迎你提交PR、汇报Bugs、在[issues page](https://github.com/WindomZ/go-develop-kit/issues)提出新想法、新要求或者讨论问题，
+我很乐意能一起参与。
+
+如果你喜欢这个项目，可以点下 :star: 以支持！
 
 ## 许可
 

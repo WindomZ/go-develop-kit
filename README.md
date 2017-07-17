@@ -36,7 +36,7 @@ go get github.com/WindomZ/go-develop-kit...
     - Still in development :)
 
 ### Path
-[README](https://github.com/WindomZ/go-develop-kit/blob/master/path/README.md#readme)
+[README](https://github.com/WindomZ/go-develop-kit/blob/master/path#readme)
 
 - Get the user's **`home` directory**
 - **File operation** function collection
@@ -69,6 +69,13 @@ go get github.com/WindomZ/go-develop-kit...
     - Commonly used UUID validator
 - [tool](https://github.com/WindomZ/go-develop-kit/blob/master/uuid/tool.go)
     - Commonly used UUID conversion tool
+
+## Contributing
+
+Welcome to pull requests, report bugs, suggest ideas and discuss **go-develop-kit**, 
+i would love to hear what you think about **go-develop-kit** on [issues page](https://github.com/WindomZ/go-develop-kit/issues).
+
+If you like it then you can put a :star: on it.
 
 ## License
 
