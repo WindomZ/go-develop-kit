@@ -63,20 +63,39 @@ func (s *HttpClient) setRequestHeader(r *http.Request) *http.Request {
 	return r
 }
 
-func (s *HttpClient) Post(uri string, data interface{}) (*http.Response, error) {
+func (s *HttpClient) Post(uri string, data []byte, header map[string][]string) (*http.Response, error) {
 	var body io.Reader = nil
-	if data != nil {
-		j, err := json.Marshal(data)
-		if err != nil {
-			return nil, err
-		}
-		body = strings.NewReader(string(j))
+	if len(data) != 0 {
+		body = strings.NewReader(string(data))
 	}
 	req, err := http.NewRequest("POST", uri, body)
 	if err != nil {
 		return nil, err
 	}
-	s.setRequestHeader(req).Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	if len(header) != 0 {
+		for k, vs := range header {
+			for _, v := range vs {
+				s.setRequestHeader(req).Header.Set(k, v)
+			}
+		}
+	}
+	return s.client.Do(req)
+}
+
+func (s *HttpClient) PostJSON(uri string, data interface{}) (*http.Response, error) {
+	var body io.Reader = nil
+	if data != nil {
+		b, err := json.Marshal(data)
+		if err != nil {
+			return nil, err
+		}
+		body = strings.NewReader(string(b))
+	}
+	req, err := http.NewRequest("POST", uri, body)
+	if err != nil {
+		return nil, err
+	}
+	s.setRequestHeader(req).Header.Set("Content-Type", "application/json")
 	return s.client.Do(req)
 }
 
