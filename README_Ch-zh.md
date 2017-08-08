@@ -15,6 +15,11 @@ go get github.com/WindomZ/go-develop-kit...
 
 ## 使用
 
+### Bytes
+- [bytes] (https://github.com/WindomZ/go-develop-kit/tree/master/bytes)
+    - Format 将字节数转换成可读字符串
+    - Parse 将可读字符串转换成字节数
+
 ### Cache
 - [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
     - [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)
@@ -40,6 +45,12 @@ go get github.com/WindomZ/go-develop-kit...
 
 - 获取用户当前**`HOME`目录**路径
 - **文件操作**功能集合
+
+### Queue
+- [queue](https://github.com/WindomZ/go-develop-kit/blob/master/queue/queue.go)
+    - Push 推入队列
+    - Pull 推出队列，FIFO
+    - Exchange 安全地改变队列容量
 
 ### Security
 - salt
