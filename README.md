@@ -15,6 +15,11 @@ go get github.com/WindomZ/go-develop-kit...
 
 ## Usage
 
+### Bytes
+- [bytes] (https://github.com/WindomZ/go-develop-kit/tree/master/bytes)
+    - Format formats bytes integer to human readable string
+    - Parse parses human readable bytes string to bytes integer
+
 ### Cache
 - [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
     - [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)

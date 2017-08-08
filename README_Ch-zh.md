@@ -15,6 +15,11 @@ go get github.com/WindomZ/go-develop-kit...
 
 ## 使用
 
+### Bytes
+- [bytes] (https://github.com/WindomZ/go-develop-kit/tree/master/bytes)
+    - Format 将字节数转换成可读字符串
+    - Parse 将可读字符串转换成字节数
+
 ### Cache
 - [cache](https://github.com/WindomZ/go-develop-kit/tree/master/cache)
     - [freecache](https://github.com/WindomZ/go-develop-kit/tree/master/cache/freecache)
