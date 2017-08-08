@@ -46,6 +46,12 @@ go get github.com/WindomZ/go-develop-kit...
 - 获取用户当前**`HOME`目录**路径
 - **文件操作**功能集合
 
+### Queue
+- [queue](https://github.com/WindomZ/go-develop-kit/blob/master/queue/queue.go)
+    - Push 推入队列
+    - Pull 推出队列，FIFO
+    - Exchange 安全地改变队列容量
+
 ### Security
 - salt
     - [hmac](https://github.com/WindomZ/go-develop-kit/blob/master/security/salt/hmac.go)

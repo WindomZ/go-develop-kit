@@ -16,7 +16,7 @@ go get github.com/WindomZ/go-develop-kit...
 ## Usage
 
 ### Bytes
-- [bytes] (https://github.com/WindomZ/go-develop-kit/tree/master/bytes)
+- [bytes](https://github.com/WindomZ/go-develop-kit/tree/master/bytes/bytes.go)
     - Format formats bytes integer to human readable string
     - Parse parses human readable bytes string to bytes integer
 
@@ -45,6 +45,12 @@ go get github.com/WindomZ/go-develop-kit...
 
 - Get the user's **`home` directory**
 - **File operation** function collection
+
+### Queue
+- [queue](https://github.com/WindomZ/go-develop-kit/blob/master/queue/queue.go)
+    - Push push the queue.
+    - Pull pull the queue, FIFO.
+    - Exchange safely change queue capacity.
 
 ### Security
 - salt
