@@ -3,7 +3,6 @@ package path
 import (
 	"os"
 	"os/exec"
-	"path"
 	"path/filepath"
 	"strings"
 )
@@ -31,7 +30,7 @@ func Ensure(_path string, dir bool) error {
 			if err := os.MkdirAll(_path, os.ModePerm); err != nil {
 				return err
 			}
-		} else if err := Ensure(path.Dir(_path), true); err != nil {
+		} else if err := Ensure(filepath.Dir(_path), true); err != nil {
 			return err
 		} else if err := CreateFile(_path); err != nil {
 			return err
