@@ -31,6 +31,11 @@ go get github.com/WindomZ/go-develop-kit...
     - HMAC-Based One-time Password (HOTP) algorithm specified in RFC 4226
     - Time-based One-time Password (TOTP) algorithm specified in RFC 6238
 
+### IP
+- [ip](https://github.com/WindomZ/go-develop-kit/blob/master/iputil/ip.go)
+    - Get the current IP address
+    - Get the end of current IP address
+
 ### Math
 - [float64](https://github.com/WindomZ/go-develop-kit/blob/master/math/float.go)
     - Add, subtract, multiply, divide and round
