@@ -37,7 +37,7 @@ func ClientIP(r *http.Request) string {
 	if values, _ := r.Header["X-Real-Ip"]; len(values) > 0 {
 		clientIP = strings.TrimSpace(values[0])
 	}
-	if len(clientIP) > 0 {
+	if clientIP != "" {
 		return clientIP
 	}
 	if values, _ := r.Header["X-Forwarded-For"]; len(values) > 0 {
@@ -46,7 +46,7 @@ func ClientIP(r *http.Request) string {
 	if index := strings.IndexByte(clientIP, ','); index >= 0 {
 		clientIP = clientIP[0:index]
 	}
-	if clientIP = strings.TrimSpace(clientIP); len(clientIP) > 0 {
+	if clientIP = strings.TrimSpace(clientIP); clientIP != "" {
 		return clientIP
 	}
 	return GetIP(r.RemoteAddr)
