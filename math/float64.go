@@ -1,6 +1,6 @@
 package math
 
-import "github.com/shopspring/decimal"
+import "github.com/WindomZ/decimal"
 
 func FloatRound(value float64, places int) float64 {
 	f, _ := decimal.NewFromFloat(value).Round(int32(places)).Float64()

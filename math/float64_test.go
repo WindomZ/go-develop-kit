@@ -1,77 +1,57 @@
 package math
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/WindomZ/testify/assert"
+)
 
 func TestFloatRound(t *testing.T) {
-	var f float64 = 2.012345
-	if r := FloatRound(f, 5); r != 2.01235 {
-		t.Fatalf("Error %#v", r)
-	}
-	f = 4.012345
-	if r := FloatRound(f, 5); r != 4.01235 {
-		t.Fatalf("Error %#v", r)
-	}
+	assert.Equal(t, FloatRound(2.012345, 5), 2.01235)
+	assert.Equal(t, FloatRound(4.012345, 5), 4.01235)
 }
 
 func TestFloatRoundToInt(t *testing.T) {
-	var f float64 = 2.012345
-	if r := FloatRoundToInt(f, 5); r != 201235 {
-		t.Fatalf("Error %#v", r)
-	}
-	f = 4.012345
-	if r := FloatRoundToInt(f, 5); r != 401235 {
-		t.Fatalf("Error %#v", r)
-	}
+	assert.Equal(t, FloatRoundToInt(2.012345, 5), int64(201235))
+	assert.Equal(t, FloatRoundToInt(4.012345, 5), int64(401235))
 }
 
 func TestFloatSumRound(t *testing.T) {
-	const F1 float64 = 1.012345
-	const F2 float64 = 2.012345
-	const F3 float64 = 3.012345
-	const F4 float64 = 4.012345
-	const F5 float64 = 5.012345
-	if r := FloatSum(F1, F2); r != 3.02469 {
-		t.Fatalf("Error %#v", r)
-	} else if r := FloatSumRound(F1, F2, 5, F3, F4, F5); r != 15.06173 {
-		t.Fatalf("Error %#v", r)
-	}
+	const F1 = 1.012345
+	const F2 = 2.012345
+	const F3 = 3.012345
+	const F4 = 4.012345
+	const F5 = 5.012345
+	assert.Equal(t, FloatSum(F1, F2), 3.02469)
+	assert.Equal(t, FloatSumRound(F1, F2, 5, F3, F4, F5), 15.06173)
 }
 
 func TestFloatSubRound(t *testing.T) {
-	const F1 float64 = 1.012345
-	const F2 float64 = 2.012345
-	const F3 float64 = 3.012345
-	const F4 float64 = 4.012345
-	const F5 float64 = 5.012345
-	if r := FloatSub(F1, F2); r != -1 {
-		t.Fatalf("Error %#v", r)
-	} else if r := FloatSubRound(F1, F2, 5, F3, F4, F5); r != -13.03704 {
-		t.Fatalf("Error %#v", r)
-	}
+	const F1 = 1.012345
+	const F2 = 2.012345
+	const F3 = 3.012345
+	const F4 = 4.012345
+	const F5 = 5.012345
+	assert.Equal(t, FloatSub(F1, F2), float64(-1))
+	assert.Equal(t, FloatSubRound(F1, F2, 5, F3, F4, F5), -13.03704)
 }
 
 func TestFloatMulRound(t *testing.T) {
-	const F1 float64 = 1.012345
-	const F2 float64 = 2.012345
-	const F3 float64 = 3.012345
-	const F4 float64 = 4.012345
-	const F5 float64 = 5.012345
-	if r := FloatMul(F1, F2); r != 2.037187399025 {
-		t.Fatalf("Error %#v", r)
-	} else if r := FloatMulRound(F1, F2, 5, F3, F4, F5); r != 123.41698 {
-		t.Fatalf("Error %#v", r)
-	}
+	const F1 = 1.012345
+	const F2 = 2.012345
+	const F3 = 3.012345
+	const F4 = 4.012345
+	const F5 = 5.012345
+	assert.Equal(t, FloatMul(F1, F2), 2.037187399025)
+	assert.Equal(t, FloatMulRound(F1, F2, 5, F3, F4, F5), 123.41698)
 }
 
 func TestFloatDivRound(t *testing.T) {
-	const F1 float64 = 1.012345
-	const F2 float64 = 2.012345
-	const F3 float64 = 3.012345
-	const F4 float64 = 4.012345
-	const F5 float64 = 5.012345
-	if r := FloatDiv(F1, F2); r != 0.5030673169859045 {
-		t.Fatalf("Error %#v", r)
-	} else if r := FloatDivRound(F1, F2, 5, F3, F4, F5); r != 0.0083 {
-		t.Fatalf("Error %#v", r)
-	}
+	const F1 = 1.012345
+	const F2 = 2.012345
+	const F3 = 3.012345
+	const F4 = 4.012345
+	const F5 = 5.012345
+	assert.Equal(t, FloatDiv(F1, F2), 0.5030673169859045)
+	assert.Equal(t, FloatDivRound(F1, F2, 5, F3, F4, F5), 0.0083)
 }
