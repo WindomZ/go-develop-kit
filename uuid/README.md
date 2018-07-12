@@ -1,3 +1,3 @@
 # uuid
 
-Library based on [satori/go.uuid](https://github.com/satori/go.uuid) package
+Library based on [google/uuid](https://github.com/google/uuid) package

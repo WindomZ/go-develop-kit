@@ -3,18 +3,18 @@ package uuid
 import (
 	"regexp"
 
-	"github.com/satori/go.uuid"
+	"github.com/google/uuid"
 )
 
-var EMPTY, _ = uuid.FromString("00000000-0000-0000-0000-000000000000")
+var EMPTY, _ = uuid.Parse("00000000-0000-0000-0000-000000000000")
 
 // IsEmpty returns true if is empty UUID.
 func IsEmpty(id string) bool {
-	u, err := uuid.FromString(id)
+	u, err := uuid.Parse(id)
 	if err != nil {
 		return id == "00000000000000000000000000000000"
 	}
-	return uuid.Equal(EMPTY, u)
+	return u.String() == EMPTY.String()
 }
 
 // Valid returns true if valid UUID.

@@ -17,7 +17,7 @@ before_install:
   - go get github.com/coocood/freecache
   - go get github.com/buger/jsonparser
   - go get github.com/BurntSushi/toml
-  - go get github.com/satori/go.uuid
+  - go get github.com/google/uuid
   - go get github.com/tsenart/tb
 
 script:
